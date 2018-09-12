@@ -20,7 +20,7 @@ GO
 
 CREATE TABLE ALMACEN_EMPRESA (
 	ID_ALMACEN_EMPRESA VARCHAR (10)  NOT null,
-	DESCRIPCION VARCHAR (10) NULL,
+	DESCRIPCION VARCHAR (300) NULL,
 	ESTADO VARCHAR(30) NOT NULL ,
 	CIUDAD VARCHAR (100) NOT NULL ,
 	CP VARCHAR (5) NULL ,
@@ -51,7 +51,7 @@ CREATE TABLE VEHICULO (
 	MODELO VARCHAR (5) NULL ,
 	COLOR VARCHAR (30) NULL ,
 	PRECIO MONEY NULL, 
-	EXISTENCIA TINYINT NULL,
+	EXISTENCIA INT NULL,
 	ESTADO VARCHAR
 );
 GO
@@ -61,7 +61,7 @@ CREATE TABLE ACCESORIO (
 	ID_ACCESORIO VARCHAR (10)  NOT NULL,
 	DECRIPCION VARCHAR (30) NOT NULL,
 	PRECIO MONEY NOT NULL, 
-	EXISTENCIA TINYINT NULL,
+	EXISTENCIA int NULL,
 	ESTADO VARCHAR NULL
 );
 GO
@@ -74,7 +74,7 @@ CREATE TABLE CLIENTE(
 	SEGUNDO_APELLIDO VARCHAR(60) NULL,
 	CURP VARCHAR(18) NULL,
 	FECHA_NACIMIENTO DATE NULL,
-	SEXO VARCHAR(1)NOT NULL
+	SEXO VARCHAR(1) NULL
 )
 GO
 
@@ -583,6 +583,14 @@ VALUES  ('CL0000030','Acton','Fuentes','Blackwell','BCHZ302937HAEUZG18','1978/09
 
 
 
+-----------------------------------ALMACEN_EMPRESA-------------------------------------------------------------SELECT * FROM ALMACEN_EMPRESA
+
+INSERT INTO ALMACEN_EMPRESA(ID_ALMACEN_EMPRESA,DESCRIPCION,ESTADO,CIUDAD,CP,COLONIA,CALLE,NUM_INT) 
+VALUES
+('ALM0001','ALMACEN PRINCIPAL','Mexico','Atotonilco','15208','centro','Teoloyucan','878'),
+('ALM0002','ALMACEN SECUNDARIO','Ciudad de Mexico','Coyoacan','29534','centro','Liberta','711'),
+('ALM0003','ALMACEN PRINCIPAL','Ciudad de Mexico','Itztapalapa','47574','centro','El refugio','219'),
+('ALM0004','ALMACEN PRINCIPAL','Ciudad de Mexico','Alvaro Obregon','93148','centro','Omega','940')
 
 
 
@@ -591,12 +599,18 @@ VALUES  ('CL0000030','Acton','Fuentes','Blackwell','BCHZ302937HAEUZG18','1978/09
 
 
 
+/*
+('SUC00001','Sucursal 1','20 de Enero','611','centro','Guanajuato','93100','Guanajuato'),
+('SUC00002','Sucursal 2','Alamo','549','centro','Irapuato','59392','Guanajuato'),
+('SUC00003','Sucursal 3','Agua Azul','578','centro','Leon','66743','Guanajuato'),
+('SUC00004','Sucursal 4','Alamo del valle','429','centro','Silao','84160','Guanajuato'),
+('SUC00005','Sucursal 5','Morelos','780','centro','Yuridia','25524','Guanajuato'),
+('SUC00006','Sucursal 6','Madero','102','centro','San  Miguel de Allenda','50783','Guanajuato'),
+('SUC00007','Sucursal 7','Valadez','623','centro','La paz','14764','Mexico'),
+('SUC00008','Sucursal 8','El dorado','649','centro','Lerma','50508','Mexico'),
+('SUC00009','Sucursal 9','Lopez','487','centro','Morelos','30897','Mexico'),
 
-
-
-
-
-
+*/
 
 
 
