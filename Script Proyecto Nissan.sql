@@ -581,7 +581,7 @@ VALUES  ('CL0000030','Acton','Fuentes','Blackwell','BCHZ302937HAEUZG18','1978/09
 
 
 
------------------------------------ALMACEN_EMPRESA-------------------------------------------------------------SELECT * FROM ALMACEN_EMPRESA
+-----------------------------------ALMACEN_EMPRESA-------------------------------------------------------------    SELECT * FROM ALMACEN_EMPRESA
 
 INSERT INTO ALMACEN_EMPRESA(ID_ALMACEN_EMPRESA,DESCRIPCION,ESTADO,CIUDAD,CP,COLONIA,CALLE,NUM_INT) 
 VALUES
@@ -593,29 +593,113 @@ VALUES
 
 
 
-SELECT * FROM ACCESORIO
+-----------------------------------DISTRIBUIDOR_O_SUCURSAL  -------------------------------------------------   SELECT * FROM DISTRIBUIDOR_O_SUCURSAL
 
 
 
-/*
-('SUC00001','Sucursal 1','20 de Enero','611','centro','Guanajuato','93100','Guanajuato'),
-('SUC00002','Sucursal 2','Alamo','549','centro','Irapuato','59392','Guanajuato'),
-('SUC00003','Sucursal 3','Agua Azul','578','centro','Leon','66743','Guanajuato'),
-('SUC00004','Sucursal 4','Alamo del valle','429','centro','Silao','84160','Guanajuato'),
-('SUC00005','Sucursal 5','Morelos','780','centro','Yuridia','25524','Guanajuato'),
-('SUC00006','Sucursal 6','Madero','102','centro','San  Miguel de Allenda','50783','Guanajuato'),
-('SUC00007','Sucursal 7','Valadez','623','centro','La paz','14764','Mexico'),
-('SUC00008','Sucursal 8','El dorado','649','centro','Lerma','50508','Mexico'),
-('SUC00009','Sucursal 9','Lopez','487','centro','Morelos','30897','Mexico'),
-
-*/
-
-
-
+INSERT INTO DISTRIBUIDOR_O_SUCURSAL(ID_SUCURSAL,DESCRIPCION,ESTADO,CIUDAD,CP,COLONIA,CALLE,NUM_INT,PUNTUACION) 
+VALUES				
+('SUC00001','NISSAN GUANAJUATO','Guanajuato','Guanajuato','93100','centro'		,'20 de Enero'			,'611'	  ,0										),
+('SUC00002','NISSAN IRAPUATO','Guanajuato','Irapuato','59392','centro'			,'Alamo'				,'549'	,0										),
+('SUC00003','NISSAN 1 LEON','Guanajuato','Leon','66743'	,'centro'				,'Agua Azul'			,'578'	,0										),
+('SUC00004','NISSAN 2 LEON','Guanajuato','Leon','66743'	,'centro'				,'San  Miguel'			,'500'	,0										),
+('SUC00005','SUC NISSAN DE SILAO','Guanajuato','Silao','84160','centro'		,'Alamo del valle'		,'429'		,0										),
+('SUC00006','NISSAN YURIDIA','Guanajuato','Yuridia','25524'	,'centro'		,'Morelos'				,'780'		,0										),
+('SUC00007','NISSAN SMA','Guanajuato','San  Miguel de Allende','50783'	,'centro'			,'Madero'				,'102'		,0					),
+('SUC00008','NISSAN LA PAZ','Mexico','La paz','14764','centro'				,'Valadez'				,'623'		,0										),
+('SUC00009','NISSAN LERMA','Mexico','Lerma','50508'	,'centro'			,'El dorado'			,'649'			,0								),
+('SUC000010','NISSAN 1 MORELOS','Mexico','Morelos','30897','centro'				,'Lopez'				,'487'	,0										)
 
 
 
 
+
+--------------------------------------			SERVICIO	----------------------  SELECT * FROM SERVICIO
+insert into SERVICIO (ID_SERVICIO,DESCRIPCION,PRECIO)
+values ('SE0000001','Aceite semi-sintetico',326),
+('SE0000002','Aceite sintetico',760),
+('SE0000003','Filtro de aire',470),
+('SE0000004','Filtro de aire acondicionado',769),
+('SE0000005','Pastillas de freno delanteras',1777),
+('SE0000007','Revision del filtro de agua',150),
+('SE0000008','Ajuste de bombillas',200),
+('SE0000009','tensor de faja',700),
+('SE0000010','Juego libre de clutch',500),
+('SE0000011','Limpieza de terminales',350),
+('SE0000012','Servicio general 10mil Km',5130),
+('SE0000013','Servicio general 20mil Km',7780),
+('SE0000014','Servicio general 30mil Km',5130),
+('SE0000015','Servicio general 40mil Km',8720),
+('SE0000016','Servicio general 50mil Km',5130),
+('SE0000017','Servicio general 60mil Km',7780),
+('SE0000018','Servicio general 70mil Km',5130),
+('SE0000019','Servicio general 80mil Km',10060),
+('SE0000020','Servicio general 90mil Km',5130),
+('SE0000021','Servicio general 100mil Km',9540);
+GO
+
+
+
+
+-----------------------------			ACCESORIO			-----------------   SELECT * FROM ACCESORIO
+
+insert into ACCESORIO (ID_ACCESORIO,DECRIPCION,PRECIO,EXISTENCIA) 
+values ('AC0000001','Antifaz',2429,2453),
+('AC0000002','Calcomanias deportivas',4630,4606),
+('AC0000003','Canastilla portaequipaje',5324,560),
+('AC0000004','Cenicero con luz',626,3452),
+('AC0000005','Faldon delantero',4851,780),
+('AC0000006','Faldon tracero',4851,850),
+('AC0000007','Faldones laterales',4925,355),
+('AC0000008','Iluminacion interior',7006,742),
+('AC0000009','Kit de emergencia',1564,4003),
+('AC0000010','Portaplacas cromado',980,7430),
+('AC0000011','Portacasco cromado',731,564),
+('AC0000012','Protectores espejo',649,304),
+('AC0000013','Punta de escape',908,501),
+('AC0000014','Spoiler trasero naranja',4960,6430),
+('AC0000015','Tapete de vinil',676,6700),
+('AC0000016','Tuercas de seguridad',615,120234);
+GO
+
+
+
+
+insert into ACCESORIO (ID_ACCESORIO,DECRIPCION,PRECIO,EXISTENCIA) 
+values  ('AC0000017','Barras porta equipaje Osun reforzadas',550,320),
+	('AC0000018','Daewoo kit Auto con 2 bocinas 6.5 con control',965,2099),
+	('AC0000019','Lip Universal flexible faldon estribo',350,1315),
+	('AC0000020','Luz de cortesia Puerta Proyector Led logo inalambrico',294,934),
+	('AC0000021','Moldura vista decorativa brilla metalica interior',139,465),
+	('AC0000022','Cantoneras Universales JETTA',679,2345),
+	('AC0000023','Kit polarizado',300,192),
+	('AC0000024','Carcasa llave control VW Jetta Golf',249,1661),
+	('AC0000025','Juego de Pedales Vocho VW Sedan',921,244),
+	('AC0000026','Inversor de correinte automotriz de 12v',225,86),
+	('AC0000027','Aleron Cajuela Spoiler',399,12345),
+	('AC0000028','Antena Aleta de tiburon para radio VW',279,606),
+	('AC0000029','Hankook letras para llantas de caucho',1000,21),
+	('AC0000030','Canastilla portaequipaje',549,442),
+	('AC0000031','Tacometro digital luz laser optico',294,98),
+	('AC0000032','Juego marco portaplacas marca razen',37,9876),
+	('AC0000033','Vinil reflejante',65,100000),
+	('AC0000034','20 modulos luz LED 5630',96,1234),
+	('AC0000035','Asidero Volkswagen Jetta Izquierdo Golf',299,286),
+	('AC0000036','Porta bicicletas Osun Universal',4321,12),
+	('AC0000037','Tapetes Originales VW Jetta A4 Clasico',584,720),
+	('AC0000038','Funda portectora afelpada ultraligera',850,633),
+	('AC0000039','Simulador Turbo Whistle Escape mediano',119,83),
+	('AC0000040','Papel polarizado anriraya 30m x 50 cm',342,111111),
+	('AC0000041','Agarradera Jeep Wrangler JK',289,493),
+	('AC0000042','Tapon 33 alto de pico de plastico',14,89765),
+	('AC0000043','Tapones cromados para valvula o pivote de rin',99,12345),
+	('AC0000044','Moldura vista decorativa autoadherible',199,345),
+	('AC0000045','Funda silicon Honda 3 Accord Civic',58,7676),
+	('AC0000046','Switch maestro volkswagen Jetta A4',1342,11),
+	('AC0000047','Aleron Cajuela Original VW JETTA A6',972,1123),
+	('AC0000048','Boton palanca de cambios Sonic 2012',1342,19),
+	('AC0000049','Porta placa europea',160,100),
+	('AC0000050','Tapa codera vinilpiel Jetta Clasico A4',389,1998)
 
 
 
