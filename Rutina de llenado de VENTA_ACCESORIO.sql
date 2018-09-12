@@ -1,0 +1,108 @@
+
+
+
+
+
+ /*+++++++++++++CREA INDICE DE LAS SURSALES CORRESPONDIENTES++++++++++++++++++  */
+use Nissan
+GO
+
+CREATE VIEW SucursalPP
+AS
+SELECT ROW_NUMBER() OVER (ORDER BY ID_SUCURSAL) AS INDICE, ID_SUCURSAL 
+ FROM Distribuidor_o_sucursal 
+GO
+ 
+SELECT * FROM SucursalPP
+
+
+CREATE VIEW AccesorioPP
+AS
+SELECT ROW_NUMBER() OVER (ORDER BY ID_ACCESORIO) AS INDICE, ID_ACCESORIO 
+ FROM ACCESORIO 
+GO
+SELECT * FROM AccesorioPP
+
+
+CREATE VIEW clientePP
+AS
+SELECT ROW_NUMBER() OVER (ORDER BY ID_CLIENTE) AS INDICE, ID_CLIENTE 
+ FROM CLIENTE 
+GO
+SELECT * FROM clientePP
+
+
+/**********************************************************************************************
+RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_ACCESORIO que realizan los 
+DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que ACCESORIOS VENDE 
+**************************************************************************************************/
+
+CREATE  PROC  SP_LLENA_VENTA_ACCESORIO 
+  @CUENTA BIGINT,  @N INT
+  AS
+     begin tran llena_venta_accesorio
+	 DECLARE @ID_VENTA VARCHAR(10),   @ID_SUCURSAL VARCHAR(10), 	@FECHA DATE,  
+	 @ID_ACCESORIO  VARCHAR(10),@ID_CLIENTE VARCHAR(10),@CONT INT = 1 , 	    @CONT2 INT ,
+      	@CTA SMALLINT , @CTA1  SMALLINT  --,  
+		--@CUENTA INT =100000  ,  @N INT = 7000
+	 WHILE (@CONT <=  @N)
+        BEGIN    
+        SET @ID_VENTA =  'VTA' + CONVERT(VARCHAR,@CUENTA)
+	    SET @CTA = FLOOR( (RAND() * 15) + 1) 
+		  --print @cta
+	    SELECT  @ID_SUCURSAL = ID_SUCURSAL   
+	       FROM SucursalPP
+           WHERE INDICE = @CTA
+	    SET @CTA = FLOOR( (RAND() * 180) + 1)
+	    SET @FECHA = GETDATE() + @CTA
+	    --SET @NO_FACTURA =  'FACT' + CONVERT(CHAR,@CUENTA)
+	    --SELECT * FROM VENTA_ACCESORIO
+	  INSERT INTO VENTA_ACCESORIO (ID_VENTA_ACCESORIO,FK_DISTRIBUIDORA,FECHA)VALUES(@ID_VENTA,@ID_SUCURSAL,@FECHA )
+	      SET @CTA1 = FLOOR( (RAND() * 7) + 1)
+		SET @CONT2 = 1
+        WHILE(@CONT2 <= @CTA1)
+	    BEGIN
+	      SET @CTA = FLOOR( (RAND() * 100) + 1)
+	      SELECT  @ID_ACCESORIO = ID_ACCESORIO  
+	        FROM AccesorioPP
+            WHERE INDICE = @CTA
+          SELECT  @ID_CLIENTE = ID_CLIENTE  
+	        FROM ClientePP
+            WHERE INDICE = @CTA
+	      SET @CTA = FLOOR( (RAND() * 8) + 4)
+         
+		  if NOT EXISTS (SELECT FK_VENTA_ACCESORIO,FK_ACCESORIO,FK_CLIENTE FROM DET_VENTA_ACCESORIO
+		          WHERE FK_ACCESORIO = @ID_ACCESORIO AND FK_VENTA_ACCESORIO = @ID_VENTA AND FK_CLIENTE=@ID_CLIENTE)
+		  BEGIN  
+		     INSERT INTO DET_VENTA_ACCESORIO VALUES(@ID_VENTA,@ID_ACCESORIO,@ID_CLIENTE)
+			 SET @CONT2 = @CONT2 + 1
+			 ---POR EL TRIGGER
+			 --update articulo set EXISTENCIA_ACTUAL = EXISTENCIA_ACTUAL + @cant_rec,
+			   --   precio_actual = @costo_fab*1.30 where NO_ART = @no_art        
+          END
+	    END   --FIN WHILE INTERNO
+        SET @CUENTA = @CUENTA + 2
+        SET @CONT = @CONT + 1   
+     END  -- FIN WHILE PRINC
+  IF @@ERROR <> 0
+   BEGIN
+      RAISERROR(N'MENSAJE', 16, 1);
+     PRINT N'Error = ' + CAST(@@ERROR AS NVARCHAR(8));
+     ROLLBACK TRAN tran_llena_recibe 
+   END
+  ELSE  
+    COMMIT TRAN tran_llena_Recibe   
+    
+    
+
+
+
+
+--ejecucion
+EXEC SP_LLENA_VENTA_ACCESORIO  50010,  60000
+
+SELECT * FROM VENTA_ACCESORIO
+SELECT * FROM DET_VENTA_ACCESORIO
+
+
+SELECT * FROM VENTA_ACCESORIO INNER JOIN DET_VENTA_ACCESORIO ON 
