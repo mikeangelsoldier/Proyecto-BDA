@@ -10,7 +10,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY ID_SUCURSAL) AS INDICE, ID_SUCURSAL
 GO
  
 SELECT * FROM SucursalPP
-
+GO
 
 CREATE VIEW AccesorioPP
 AS
@@ -19,7 +19,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY ID_ACCESORIO) AS INDICE, ID_ACCESORIO
 GO
 
 SELECT * FROM AccesorioPP
-
+GO
 
 CREATE VIEW clientePP
 AS
@@ -28,20 +28,20 @@ SELECT ROW_NUMBER() OVER (ORDER BY ID_CLIENTE) AS INDICE, ID_CLIENTE
 GO
 
 SELECT * FROM clientePP
-
+GO
 
 /**********************************************************************************************
 RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_ACCESORIO que realizan los 
 DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que ACCESORIOS VENDE 
 **************************************************************************************************/
 
-CREATE ALTER PROC  SP_LLENA_VENTA_ACCESORIO 
+CREATE  PROC  SP_LLENA_VENTA_ACCESORIO 
   @CUENTA BIGINT,  @N INT
   AS
      begin tran llena_venta_accesorio
 	 DECLARE @ID_VENTA VARCHAR(10),  @ID_SUCURSAL VARCHAR(10), 	@FECHA DATE,  
 	 @ID_CLIENTE VARCHAR(10),@CONT INT = 1 , @CONT2 INT ,@ID_ACCESORIO VARCHAR(10), @cantidad int,
-      	@CTA SMALLINT , @CTA1  SMALLINT, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
       	
       
 		
