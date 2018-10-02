@@ -2,10 +2,10 @@
 * PROYECTO BASES DE DATOS AVANZADAS   ultima actualizacion: 09 DE SEPTIEBRE DE 2018   
 								Inst. Tecnologico de Leon *
 * Autores:  
-			•	José Guadalupe de Jesús Cervera Barbosa
-			•	Judá Alector Vallejo Herrera
-			•	Luis Saul Ornelas Pérez
-			•	Miguel Ángel Ramírez Lira
+			ï¿½	Josï¿½ Guadalupe de Jesï¿½s Cervera Barbosa
+			ï¿½	Judï¿½ Alector Vallejo Herrera
+			ï¿½	Luis Saul Ornelas Pï¿½rez
+			ï¿½	Miguel ï¿½ngel Ramï¿½rez Lira
 
  
 *****************************************************************************************************/
@@ -50,13 +50,13 @@ GO
 
 CREATE TABLE VEHICULO (
 	ID_VEHICULO VARCHAR (10)  NOT NULL,
-	DECRIPCION VARCHAR (300) NULL ,
-	TIPO VARCHAR (20) NULL ,
-	AÑO VARCHAR(4) NULL ,
-	MODELO VARCHAR (5) NULL ,
-	COLOR VARCHAR (30) NULL ,
-	PRECIO MONEY NULL, 
-	EXISTENCIA INT NULL,
+	DECRIPCION VARCHAR (300) NULL,
+	TIPO VARCHAR (20) NOT NULL,
+	Aï¿½O VARCHAR(4) NULL,
+	MODELO VARCHAR (5) NOT NULL,
+	COLOR VARCHAR (30) NULL,
+	PRECIO MONEY NOT NULL, 
+	EXISTENCIA INT NOT NULL, 
 	ESTADO VARCHAR
 );
 GO
@@ -383,7 +383,7 @@ go
 
 /*valor por defecto para municipio es Leon*/
 create default df_ciudad
-as 'León'
+as 'Leï¿½n'
 go
 exec sp_bindefault 'df_municipio', 'DISTRIBUIDOR_O_SUCURSAL.CIUDAD'
 go
@@ -437,16 +437,6 @@ check_curp CHECK
 go
 */
 
-
-
-
-
-
-
-
-
-
-
 /*************************************************************************************************************************************
 					POBLAR BASE DE DATOS
 **************************************************************************************************************************************/
@@ -454,7 +444,6 @@ go
 
 use Nissan
 go
-
 -----------------------------------CLIENTES-------------------------------------------------------------SELECT * FROM CLIENTE
 INSERT INTO CLIENTE (ID_CLIENTE,NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,CURP,FECHA_NACIMIENTO,SEXO) 
 VALUES('CL0000001','Miguel','Ramirez','Lira','RALM960925HGTMRG04','1996/09/25','M')
@@ -593,9 +582,6 @@ VALUES  ('CL0000030','Acton','Fuentes','Blackwell','BCHZ302937HAEUZG18','1978/09
 
 
 
-
-
-
 -----------------------------------ALMACEN_EMPRESA-------------------------------------------------------------    SELECT * FROM ALMACEN_EMPRESA
 
 INSERT INTO ALMACEN_EMPRESA(ID_ALMACEN_EMPRESA,DESCRIPCION,ESTADO,CIUDAD,CP,COLONIA,CALLE,NUM_INT) 
@@ -715,53 +701,4 @@ values  ('AC0000017','Barras porta equipaje Osun reforzadas',550,320),
 	('AC0000048','Boton palanca de cambios Sonic 2012',1342,19),
 	('AC0000049','Porta placa europea',160,100),
 	('AC0000050','Tapa codera vinilpiel Jetta Clasico A4',389,1998)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
