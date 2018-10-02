@@ -3,6 +3,10 @@
     2 de Octubre del 2018
     SpreadSheed creado para generar datos : 
         https://docs.google.com/spreadsheets/d/1zDV00ki-q4fvIUi2kwDyBLcQHeFxqic65LjFI68-H0s/edit?usp=sharing        
+
+    Referencias para los servicios: 
+        https://www.nissan.com.mx/servicios/
+        https://www.mazda.mx/mi-mazda/mantenimiento
 */
 
 insert into SERVICIO values 
