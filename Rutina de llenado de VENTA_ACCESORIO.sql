@@ -41,7 +41,7 @@ CREATE  PROC  SP_LLENA_VENTA_ACCESORIO
      begin tran llena_venta_accesorio
 	 DECLARE @ID_VENTA VARCHAR(10),  @ID_SUCURSAL VARCHAR(10), 	@FECHA DATE,  
 	 @ID_CLIENTE VARCHAR(10),@CONT INT = 1 , @CONT2 INT ,@ID_ACCESORIO VARCHAR(10), @cantidad int,
-      	@CTA SMALLINT , @CTA1  SMALLINT, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
       	
       
 		

@@ -41,7 +41,7 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO
      begin tran llena_venta_vehiculo
 	 DECLARE @ID_VENTA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
 	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_VEHICULO VARCHAR(15), @cantidad int,
-      	@CTA SMALLINT , @CTA1  SMALLINT, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_vehiculos int
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_vehiculos int
       	
       
 		
