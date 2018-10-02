@@ -75,11 +75,12 @@ CREATE TABLE CLIENTE(
 	NOMBRE VARCHAR(100) NOT NULL,
 	PRIMER_APELLIDO VARCHAR(100) NOT NULL,
 	SEGUNDO_APELLIDO VARCHAR(100) NULL,
-	CURP VARCHAR(18) NULL,
+	CURP VARCHAR(20) NULL,--debe ser de 18
 	FECHA_NACIMIENTO DATE NULL,
 	SEXO VARCHAR(1) NULL
 )
 GO
+
 
 CREATE TABLE SERVICIO(
 	ID_SERVICIO VARCHAR(15) NOT NULL,
@@ -419,7 +420,7 @@ GO
 create rule rl_curp as
 --like compara cadenas
 	@curp LIKE
-	('[a-z][a-z][a-z][a-z][0-9][0-9][0-9][0-9][0-9][0-9][HM][a-z][a-z][a-z][a-z][a-z][0-9][0-9]')
+	('[a-z][a-z][a-z][a-z][0-9][0-9][0-9][0-9][0-9][0-9][HM][a-z][a-z][a-z][a-z][a-z][0-9a-zA-Z][0-9]')
 go
 exec sp_bindrule'rl_curp','CLIENTE.curp'
 go
