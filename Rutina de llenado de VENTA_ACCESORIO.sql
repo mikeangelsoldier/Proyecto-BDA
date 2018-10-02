@@ -35,12 +35,12 @@ RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_ACCESORIO 
 DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que ACCESORIOS VENDE 
 **************************************************************************************************/
 
-CREATE  PROC  SP_LLENA_VENTA_ACCESORIO 
+CREATE ALTER PROC  SP_LLENA_VENTA_ACCESORIO 
   @CUENTA BIGINT,  @N INT
   AS
      begin tran llena_venta_accesorio
-	 DECLARE @ID_VENTA VARCHAR(10),  @ID_SUCURSAL VARCHAR(10), 	@FECHA DATE,  
-	 @ID_CLIENTE VARCHAR(10),@CONT INT = 1 , @CONT2 INT ,@ID_ACCESORIO VARCHAR(10), @cantidad int,
+	 DECLARE @ID_VENTA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
+	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_ACCESORIO VARCHAR(15), @cantidad int,
       	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
       	
       
@@ -131,7 +131,7 @@ GO
 
 --ejecucion
 --EXEC SP_LLENA_VENTA_ACCESORIO  50010,  60000
-EXEC SP_LLENA_VENTA_ACCESORIO  20000,  200
+EXEC SP_LLENA_VENTA_ACCESORIO  70000,  200
 --cuando corra el procedimiento cambiar rango o borrar datos de ventas y sus detalles
 --DELETE FROM DET_VENTA_ACCESORIO
 --DELETE FROM VENTA_ACCESORIO

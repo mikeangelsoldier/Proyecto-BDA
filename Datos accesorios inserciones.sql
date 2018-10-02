@@ -11,7 +11,7 @@
 
 
 
-
+use Nissan
 insert into ACCESORIO (ID_ACCESORIO, DECRIPCION, PRECIO, EXISTENCIA) values 
 ('ACC000294632143', 'Aceite de motor',2389, 11421),
 ('ACC000294632144', 'Acelerador',1948, 28289),

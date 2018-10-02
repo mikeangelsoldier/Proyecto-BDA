@@ -8,7 +8,7 @@
         https://www.nissan.com.mx/servicios/
         https://www.mazda.mx/mi-mazda/mantenimiento
 */
-
+use Nissan
 insert into SERVICIO values 
 ('SERV00086734563', 'Cambio de llanta (se cambiará por la de refacción)', 3000),
 ('SERV00086734564', 'Suministro de gasolina (10 litros con costo para el beneficiario)', 2500),
