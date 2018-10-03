@@ -1,13 +1,13 @@
 
 /*
-  Obtener el VEHICULO  que mayor cantidad se haya VENTA en el 
-  mes 'X', año 'Y'  de un COLOR  'Z', MODELO  'T';  almacenelo
+  Obtener el VEHICULO  que mayor cantidad se haya VENDIDO en el 
+  mes 'X', año 'Y'  de un COLOR  'Z', TIPO  'T';  almacenelo
   en una nueva tabla los resultados de 'N' transacciones
   para realizar un posible CUBO OLAP*/
   /*LOGICA 
     PASO 1. obtener las VENTAS_VEHICULO realizados en 'X' mes, 'Y' año
     PASO2.  Obtener todos los VEHICULOS  que son de 'X' COLOR 
-	        'Y'  MODELO 
+	        'Y'  TIPO 
 	PASO 3. Obtener las VEICHULOS_PEDIDOS(CANT_PEDIDA)  de
 	        acuerdo a el resultado del  PASO 2 y PASO 1
 	PASO 4. Calcular la sumatoria de cada  VEHICULO
@@ -28,46 +28,54 @@ GO
 	--PRUEBA 
 	--SELECT * FROM VENTA_VEHICULO 
 
-SELECT * FROM DBO.fn_ventas_vehiculos(1,2015)
+SELECT * FROM DBO.fn_ventas_vehiculos(1,2017)--vehiculos vendidos en el MES XX, año XXXX
+GO
     
 	   /*************************************************************/
-	   CREATE FUNCTION FN_ARTICULOS(@TALLA CHAR(2), @COLOR CHAR(15))
-	   RETURNS TABLE
-	   AS 
-        RETURN( SELECT NO_ART,TALLA, COLOR FROM ARTICULO  
-	           WHERE COLOR = @COLOR AND TALLA = @TALLA )
-       GO
+CREATE  FUNCTION FN_VEHICULOS(@TIPO VARCHAR(300), @COLOR VARCHAR(50))
+	RETURNS TABLE
+	AS 
+		RETURN( SELECT ID_VEHICULO,MODELO, COLOR FROM VEHICULO  
+	           WHERE TIPO = @TIPO AND COLOR = @COLOR )
+GO
 	   /************************************************************/
+--SELECT * FROM VEHICULO order by  TIPO
 
---PRUEBA   SELECT * FROM DBO.FN_ARTICULOS('25','NEGRO')
+--PRUEBA   SELECT * FROM DBO.FN_VEHICULOS('automático','amarillo')
+GO
 
-
-       /******************************************************************************************/
-       CREATE FUNCTION FN_SUMA_TOTALES(@MES SMALLINT, @AÑO SMALLINT,@TALLA CHAR(2), @COLOR CHAR(15))
+/******************************************************************************************/
+CREATE FUNCTION FN_SUMA_TOTALES(@MES SMALLINT, @AÑO SMALLINT,@TIPO VARCHAR(300), @COLOR VARCHAR(50))
 	   RETURNS TABLE
 	   AS 
-	    RETURN(SELECT NO_ART, SUM(CANT_PEDIDA) SUM_TOT
-	    FROM LINEA_DETALLE WHERE NO_FOLIO IN
-	          (SELECT NO_FOLIO FROM DBO.FN_PEDIDOS(@MES,@AÑO))
-			  AND NO_ART 
-			    IN (SELECT NO_ART FROM FN_ARTICULOS(@TALLA, @COLOR))
-       GROUP BY NO_ART 
+	    RETURN(SELECT FK_VEHICULO, SUM(CANTIDAD) SUM_TOT
+	    FROM DET_VENTA_VEHICULO WHERE FK_VENTA_VEHICULO IN
+	          (SELECT ID_VENTA_VEHICULO FROM DBO.fn_ventas_vehiculos(@MES,@AÑO))
+			  AND FK_VEHICULO 
+			    IN (SELECT ID_VEHICULO FROM FN_VEHICULOS(@TIPO, @COLOR ))
+       GROUP BY FK_VEHICULO 
 	   )
+GO
+
 /************************************************************************************/
 -- PRUEBA   
-	SELECT * FROM DBO.FN_SUMA_TOTALES (9,2018,'25','NEGRO') WHERE SUM_TOT =   
-    ( SELECT MAX(SUM_TOT) FROM DBO.FN_SUMA_TOTALES (9,2018,'25','NEGRO'))
+SELECT * FROM DBO.FN_SUMA_TOTALES (1,2017,'automático','amarillo') WHERE SUM_TOT =   
+			( SELECT MAX(SUM_TOT) FROM DBO.FN_SUMA_TOTALES (1,2017,'automático','amarillo'))
+GO
 
-	/*********************************************/
-	CREATE TABLE ARTICULOS_DEMANDADOS(
-	NO_ART  CHAR(10),
+
+	/*******************PASO 6**************************/
+CREATE TABLE VEHICULOS_DEMANDADOS(
+	ID_VEHICULO  VARCHAR(15),
 	MES SMALLINT,
 	AÑO SMALLINT,
-	TALLA CHAR(2),
-	COLOR CHAR(15)   )
+	TIPO VARCHAR(300),
+	COLOR VARCHAR(50)   
+)
+GO
 	/****************************************************/
-PRUEBA--  SELECT   * FROM ARTICULOS_DEMANDADOS          DELETE FROM ARTICULOS_DEMANDADOS
-           SELECT DISTINCT  * FROM ARTICULOS_DEMANDADOS 
+--PRUEBA--  SELECT   * FROM VEHICULOS_DEMANDADOS          DELETE FROM VEHICULOS_DEMANDADOS
+           SELECT DISTINCT  * FROM VEHICULOS_DEMANDADOS 
 		   ORDER BY 1
 
 
