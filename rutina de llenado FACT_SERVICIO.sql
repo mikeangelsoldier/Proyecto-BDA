@@ -1,61 +1,60 @@
-
 /*+++++++++++++CREA INDICE DE LAS SURSALES CORRESPONDIENTES++++++++++++++++++  */
 use Nissan
 GO
 
 
-CREATE VIEW SucursalPP2
+CREATE VIEW SucursalPP3
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_SUCURSAL) AS INDICE, ID_SUCURSAL 
  FROM Distribuidor_o_sucursal 
 GO
  
-SELECT * FROM SucursalPP2
+SELECT * FROM SucursalPP3
 GO
 
-CREATE VIEW VehiculoPP
+CREATE VIEW ServicioPP
 AS
-SELECT ROW_NUMBER() OVER (ORDER BY ID_VEHICULO) AS INDICE, ID_VEHICULO 
- FROM VEHICULO 
+SELECT ROW_NUMBER() OVER (ORDER BY ID_SERVICIO) AS INDICE, ID_SERVICIO 
+ FROM SERVICIO 
 GO
 
-SELECT * FROM VehiculoPP
+SELECT * FROM ServicioPP
 
 GO
-CREATE VIEW clientePP2
+CREATE VIEW clientePP3
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_CLIENTE) AS INDICE, ID_CLIENTE 
  FROM CLIENTE 
 GO
 
-SELECT * FROM clientePP2
+SELECT * FROM clientePP3
 GO
 
 /**********************************************************************************************
-RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_VEHICULO que realizan los 
-DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que VEHICULOS VENDE 
+RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_servicio que realizan los 
+DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que servicioS VENDE 
 **************************************************************************************************/
 
-CREATE PROC  SP_LLENA_VENTA_VEHICULO
+CREATE PROC  SP_LLENA_FACT_SERVICIO
   @CUENTA BIGINT,  @N INT
   AS
-     begin tran llena_venta_vehiculo
-	 DECLARE @ID_VENTA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
-	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_VEHICULO VARCHAR(15), @cantidad int,
-      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_vehiculos int
+     begin tran llena_fact_servicio
+	 DECLARE @ID_FACTURA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
+	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_SERVICIO VARCHAR(15), @cantidad int,
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_servicios int
       	
       
 		
 	 WHILE (@CONT <=  @N)
         BEGIN    
         --Seleccionar Sucursal aleatoria
-        SET @ID_VENTA =  'VTA' + CONVERT(VARCHAR,@CUENTA)
+        SET @ID_FACTURA =  'FCT' + CONVERT(VARCHAR,@CUENTA)
         SET @cantidad_sucursales= (SELECT COUNT(ID_SUCURSAL) FROM DISTRIBUIDOR_O_SUCURSAL)--total de sucursales
 	    SET @CTA = FLOOR( (RAND() * @cantidad_sucursales) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
 	    
 		print @cta
 	    SELECT  @ID_SUCURSAL = ID_SUCURSAL   
-				FROM SucursalPP2
+				FROM SucursalPP3
 				WHERE INDICE = @CTA
 				
 		--Generar la fecha aleatoria		
@@ -68,25 +67,25 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO
 	    
 		print @cta
 	    SELECT  @ID_CLIENTE = ID_CLIENTE   
-				FROM clientePP2
+				FROM clientePP3
 				WHERE INDICE = @CTA
 				
 		
 	    
-	  INSERT INTO VENTA_VEHICULO (ID_VENTA_VEHICULO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA)VALUES(@ID_VENTA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA )
+	  INSERT INTO FACT_SERVICIO (ID_FACT_SERVICIO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA)VALUES(@ID_FACTURA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA )
 	    
 	  --Poner los detalles de venta aleatorios para una misma venta
 	    SET @CTA1 = FLOOR( (RAND() * 20) + 1)
 		SET @CONT2 = 1
         WHILE(@CONT2 <= @CTA1)
 	    BEGIN
-	      --Seleccionar VEHICULO aleatorio
-			SET @cantidad_vehiculos= (SELECT COUNT(ID_VEHICULO) FROM VEHICULO)--total de sucursales
-			SET @CTA = FLOOR( (RAND() * @cantidad_vehiculos) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
+	      --Seleccionar servicio aleatorio
+			SET @cantidad_servicios= (SELECT COUNT(ID_SERVICIO) FROM servicio)--total de sucursales
+			SET @CTA = FLOOR( (RAND() * @cantidad_servicios) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
 	    
 			print @cta
-			SELECT  @ID_VEHICULO = ID_VEHICULO   
-				FROM VehiculoPP
+			SELECT  @ID_servicio = ID_servicio   
+				FROM servicioPP
 				WHERE INDICE = @CTA
             
             
@@ -94,10 +93,10 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO
 	      SET @cantidad= @CTA
 	      
          
-		  if NOT EXISTS (SELECT FK_VENTA_VEHICULO,FK_VEHICULO FROM DET_VENTA_VEHICULO
-		          WHERE FK_VEHICULO = @ID_VEHICULO AND FK_VENTA_VEHICULO = @ID_VENTA)
+		  if NOT EXISTS (SELECT FK_FACT_SERVICIO,FK_servicio FROM DET_FACT_SERVICIO
+		          WHERE FK_servicio = @ID_servicio AND FK_FACT_SERVICIO = @ID_FACTURA)
 		  BEGIN  
-		     INSERT INTO DET_VENTA_VEHICULO VALUES(@ID_VENTA,@ID_VEHICULO,@cantidad)
+		     INSERT INTO DET_FACT_SERVICIO VALUES(@ID_FACTURA,@ID_servicio,@cantidad)
 			 SET @CONT2 = @CONT2 + 1
 			 ---POR EL TRIGGER
 			 --update articulo set EXISTENCIA_ACTUAL = EXISTENCIA_ACTUAL + @cant_rec,
@@ -111,10 +110,10 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO
    BEGIN
       RAISERROR(N'MENSAJE', 16, 1);
      PRINT N'Error = ' + CAST(@@ERROR AS NVARCHAR(8));
-     ROLLBACK TRAN tran_llena_recibe 
+     ROLLBACK TRAN tran_llena 
    END
   ELSE  
-    COMMIT TRAN tran_llena_Recibe   
+    COMMIT TRAN tran_llena  
 GO
 
 
@@ -131,11 +130,11 @@ GO
 
 
 --ejecucion
---EXEC SP_LLENA_VENTA_VEHICULO  50010,  60000
-EXEC SP_LLENA_VENTA_VEHICULO  20000,  200
---EXEC SP_LLENA_VENTA_VEHICULO  90000,  60000
+--EXEC SP_LLENA_VENTA_servicio  50010,  60000
+EXEC SP_LLENA_FACT_SERVICIO  20000,  200
+--EXEC SP_LLENA_VENTA_servicio  90000,  60000
 
 
 
-SELECT * from VENTA_VEHICULO
-SELECT * from DET_VENTA_VEHICULO
+SELECT * from FACT_SERVICIO
+SELECT * from DET_FACT_SERVICIO
