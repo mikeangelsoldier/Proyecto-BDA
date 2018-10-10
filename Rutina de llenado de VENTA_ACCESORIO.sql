@@ -1,5 +1,5 @@
 
-/*+++++++++++++CREA INDICE DE LAS SURSALES CORRESPONDIENTES++++++++++++++++++  */
+/*+++++++++++++CREA INDICE PARA RECORRER LOS DATOS DE LAS TABLAS, DE LAS SURSALES CORRESPONDIENTES++++++++++++++++++  */
 use Nissan
 GO
 
