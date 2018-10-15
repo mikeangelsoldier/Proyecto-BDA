@@ -11,318 +11,158 @@ GO
 
 
 insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH00947233', 'Electrico', 2012, 'YNmNCS', 'Negro', 1767163, 188)
+( 'VH00947233', 'Electrico', 2014, 'TSURU', 'Negro', 689543, 163),
+( 'VH01947234', 'Estandar', 2015, 'PLATINA', 'Camello', 2896067, 169),
+( 'VH02947235', 'Automático', 2018, 'TSURU', 'Vino', 548754, 64),
+( 'VH03947236', 'Electrico/automático', 2008, 'PLATINA', 'Blanco escarcha', 1790211, 100),
+( 'VH04947237', 'Electrico/estandar', 2006, 'MICRO', 'Negro', 2814786, 77),
+( 'VH05947238', 'Electrico', 2008, 'TSURU', 'Rojo', 728687, 120),
+( 'VH06947239', 'Estandar', 2015, 'APRIO', 'Verde', 435954, 43),
+( 'VH07947240', 'Automático', 2010, 'LUCINO', 'Amarillo', 360160, 75),
+( 'VH08947241', 'Electrico/automático', 2007, 'TSURU', 'Rojo/Negro', 565618, 98),
+( 'VH09947242', 'Electrico/estandar', 2005, 'VERSA', 'Gris', 1329877, 145),
+( 'VH10947243', 'Electrico', 2016, 'VERSA', 'Plata', 2444207, 95),
+( 'VH11947244', 'Estandar', 2014, 'GT-R', 'Negro', 2027062, 178),
+( 'VH12947245', 'Automático', 2003, 'VERSA', 'Camello', 617406, 152),
+( 'VH13947246', 'Electrico/automático', 2017, 'VERSA', 'Vino', 2704268, 179),
+( 'VH14947247', 'Electrico/estandar', 2003, 'VERSA', 'Blanco escarcha', 423711, 148),
+( 'VH15947248', 'Electrico', 2007, 'VERSA', 'Negro', 2236048, 35),
+( 'VH16947249', 'Estandar', 2015, 'MAXIMA', 'Rojo', 749752, 18),
+( 'VH17947250', 'Automático', 2000, 'PLATINA', 'Verde', 1393303, 149),
+( 'VH18947251', 'Electrico/automático', 2019, 'TIIDA', 'Amarillo', 904568, 56),
+( 'VH19947252', 'Electrico/estandar', 2004, 'SENTRA', 'Rojo/Negro', 1706147, 115),
+( 'VH20947253', 'Electrico', 2011, 'MICRO', 'Gris', 2104212, 61),
+( 'VH21947254', 'Estandar', 2019, 'VERSA', 'Plata', 1372110, 154),
+( 'VH22947255', 'Automático', 2016, 'VERSA', 'Negro', 1885826, 149),
+( 'VH23947256', 'Electrico/automático', 2019, 'APRIO', 'Camello', 2837986, 109),
+( 'VH24947257', 'Electrico/estandar', 2008, 'HIRAKI', 'Vino', 1385536, 91),
+( 'VH25947258', 'Electrico', 2015, 'MAXIMA', 'Blanco escarcha', 1842630, 2),
+( 'VH26947259', 'Estandar', 2020, 'MICRA', 'Negro', 2017280, 44),
+( 'VH27947260', 'Automático', 2010, 'SENTRA', 'Rojo', 1254461, 39),
+( 'VH28947261', 'Electrico/automático', 2013, 'APRIO', 'Verde', 2479883, 165),
+( 'VH29947262', 'Electrico/estandar', 2011, 'LUCINO', 'Amarillo', 2171455, 165),
+( 'VH30947263', 'Electrico', 2001, 'MICRA', 'Rojo/Negro', 1597460, 32),
+( 'VH31947264', 'Estandar', 2015, 'TSURU', 'Gris', 2672848, 181),
+( 'VH32947265', 'Automático', 2003, 'LUCINO', 'Plata', 863438, 64),
+( 'VH33947266', 'Electrico/automático', 2014, 'HIRAKI', 'Negro', 1320804, 52),
+( 'VH34947267', 'Electrico/estandar', 2009, 'PLATINA', 'Camello', 2311239, 119),
+( 'VH35947268', 'Electrico', 2014, 'GT-R', 'Vino', 806751, 146),
+( 'VH36947269', 'Estandar', 2006, 'DATSUN', 'Blanco escarcha', 1274876, 166),
+( 'VH37947270', 'Automático', 2018, 'PLATINA', 'Negro', 621073, 197),
+( 'VH38947271', 'Electrico/automático', 2005, 'LUCINO', 'Rojo', 2130502, 136),
+( 'VH39947272', 'Electrico/estandar', 2020, 'TSURU', 'Verde', 1096366, 105),
+( 'VH40947273', 'Electrico', 2000, 'SENTRA', 'Amarillo', 1025098, 140),
+( 'VH41947274', 'Estandar', 2013, 'SENTRA', 'Rojo/Negro', 2633403, 130),
+( 'VH42947275', 'Automático', 2000, 'MICRA', 'Gris', 2101321, 126),
+( 'VH43947276', 'Electrico/automático', 2011, 'VERSA', 'Plata', 2165465, 191),
+( 'VH44947277', 'Electrico/estandar', 2006, 'ALTIMA', 'Negro', 817690, 94),
+( 'VH45947278', 'Electrico', 2019, 'GT-R', 'Camello', 2350695, 32),
+( 'VH46947279', 'Estandar', 2006, 'MICRA', 'Vino', 441056, 89),
+( 'VH47947280', 'Automático', 2020, 'SENTRA', 'Blanco escarcha', 1603554, 178),
+( 'VH48947281', 'Electrico/automático', 2012, 'APRIO', 'Negro', 2053540, 92),
+( 'VH49947282', 'Electrico/estandar', 2006, 'VERSA', 'Rojo', 1285527, 71),
+( 'VH50947283', 'Electrico', 2014, 'DATSUN', 'Verde', 468838, 198),
+( 'VH51947284', 'Estandar', 2018, 'NOTE', 'Amarillo', 971641, 161),
+( 'VH52947285', 'Automático', 2018, 'DATSUN', 'Rojo/Negro', 693044, 181),
+( 'VH53947286', 'Electrico/automático', 2018, 'MICRA', 'Gris', 2893382, 178),
+( 'VH54947287', 'Electrico/estandar', 2004, 'MAXIMA', 'Plata', 792863, 85),
+( 'VH55947288', 'Electrico', 2015, 'TSURU', 'Negro', 2430054, 38),
+( 'VH56947289', 'Estandar', 2004, 'GT-R', 'Camello', 2449340, 129),
+( 'VH57947290', 'Automático', 2018, 'GT-R', 'Vino', 1679651, 89),
+( 'VH58947291', 'Electrico/automático', 2014, 'VERSA', 'Blanco escarcha', 1277930, 6),
+( 'VH59947292', 'Electrico/estandar', 2000, 'HIRAKI', 'Negro', 1286730, 26),
+( 'VH60947293', 'Electrico', 2010, 'PLATINA', 'Rojo', 786015, 135),
+( 'VH61947294', 'Estandar', 2002, 'LUCINO', 'Verde', 1438836, 109),
+( 'VH62947295', 'Automático', 2009, 'PLATINA', 'Amarillo', 216668, 164),
+( 'VH63947296', 'Electrico/automático', 2008, 'MAXIMA', 'Rojo/Negro', 1864439, 99),
+( 'VH64947297', 'Electrico/estandar', 2003, 'GT-R', 'Gris', 2692717, 197),
+( 'VH65947298', 'Electrico', 2002, 'DATSUN', 'Plata', 774391, 106),
+( 'VH66947299', 'Estandar', 2006, 'TIIDA', 'Negro', 827894, 108),
+( 'VH67947300', 'Automático', 2014, 'DATSUN', 'Camello', 785355, 84),
+( 'VH68947301', 'Electrico/automático', 2020, 'TIIDA', 'Vino', 312101, 102),
+( 'VH69947302', 'Electrico/estandar', 2017, 'DATSUN', 'Blanco escarcha', 2347645, 115),
+( 'VH70947303', 'Electrico', 2000, 'PLATINA', 'Negro', 1105518, 16),
+( 'VH71947304', 'Estandar', 2012, 'MICRO', 'Rojo', 2871434, 14),
+( 'VH72947305', 'Automático', 2011, 'MICRA', 'Verde', 2791571, 32),
+( 'VH73947306', 'Electrico/automático', 2013, 'VERSA', 'Amarillo', 2204228, 143),
+( 'VH74947307', 'Electrico/estandar', 2020, 'TIIDA', 'Rojo/Negro', 541459, 36),
+( 'VH75947308', 'Electrico', 2020, 'VERSA', 'Gris', 1159012, 167),
+( 'VH76947309', 'Estandar', 2009, 'HIRAKI', 'Plata', 2633222, 33),
+( 'VH77947310', 'Automático', 2017, 'GT-R', 'Negro', 226464, 56),
+( 'VH78947311', 'Electrico/automático', 2007, 'MICRA', 'Camello', 1945998, 12),
+( 'VH79947312', 'Electrico/estandar', 2017, 'HIRAKI', 'Vino', 1626089, 72),
+( 'VH80947313', 'Electrico', 2016, 'MICRA', 'Blanco escarcha', 715453, 59),
+( 'VH81947314', 'Estandar', 2013, 'GT-R', 'Negro', 660147, 60),
+( 'VH82947315', 'Automático', 2007, 'ALTIMA', 'Rojo', 1288990, 81),
+( 'VH83947316', 'Electrico/automático', 2002, 'MICRA', 'Verde', 330706, 49),
+( 'VH84947317', 'Electrico/estandar', 2013, 'VERSA', 'Amarillo', 2059663, 134),
+( 'VH85947318', 'Electrico', 2005, 'APRIO', 'Rojo/Negro', 364139, 123),
+( 'VH86947319', 'Estandar', 2014, 'GT-R', 'Gris', 1185410, 144),
+( 'VH87947320', 'Automático', 2009, 'PLATINA', 'Plata', 558882, 28),
+( 'VH88947321', 'Electrico/automático', 2009, 'VERSA', 'Negro', 1515478, 27),
+( 'VH89947322', 'Electrico/estandar', 2016, 'DATSUN', 'Camello', 2331242, 170),
+( 'VH90947323', 'Electrico', 2002, 'ALTIMA', 'Vino', 348628, 24),
+( 'VH91947324', 'Estandar', 2020, 'ALTIMA', 'Blanco escarcha', 1480524, 131),
+( 'VH92947325', 'Automático', 2018, 'LUCINO', 'Negro', 1637954, 115),
+( 'VH93947326', 'Electrico/automático', 2001, 'GT-R', 'Rojo', 328761, 105),
+( 'VH94947327', 'Electrico/estandar', 2014, 'VERSA', 'Verde', 1634885, 189),
+( 'VH95947328', 'Electrico', 2002, 'ALTIMA', 'Amarillo', 2511763, 65),
+( 'VH96947329', 'Estandar', 2002, 'VERSA', 'Rojo/Negro', 2130170, 96),
+( 'VH97947330', 'Automático', 2007, 'SENTRA', 'Gris', 1607227, 183),
+( 'VH98947331', 'Electrico/automático', 2017, 'SENTRA', 'Plata', 802379, 158),
+( 'VH99947332', 'Electrico/estandar', 2014, 'DATSUN', 'Negro', 1082146, 97),
+( 'VH100947333', 'Electrico', 2003, 'MICRO', 'Camello', 1724683, 141),
+( 'VH101947334', 'Estandar', 2011, 'MICRO', 'Vino', 1325667, 68),
+( 'VH102947335', 'Automático', 2006, 'GT-R', 'Blanco escarcha', 2808431, 192),
+( 'VH103947336', 'Electrico/automático', 2013, 'VERSA', 'Negro', 1405128, 181),
+( 'VH104947337', 'Electrico/estandar', 2013, 'GT-R', 'Rojo', 877245, 63),
+( 'VH105947338', 'Electrico', 2012, 'TSURU', 'Verde', 2241916, 35),
+( 'VH106947339', 'Estandar', 2016, 'GT-R', 'Amarillo', 1168127, 57),
+( 'VH107947340', 'Automático', 2003, 'TSURU', 'Rojo/Negro', 2150294, 69),
+( 'VH108947341', 'Electrico/automático', 2006, 'TIIDA', 'Gris', 2746252, 163),
+( 'VH109947342', 'Electrico/estandar', 2017, 'MICRO', 'Plata', 316365, 135),
+( 'VH110947343', 'Electrico', 2003, 'LUCINO', 'Negro', 2197922, 173),
+( 'VH111947344', 'Estandar', 2017, 'ALTIMA', 'Camello', 1615748, 122),
+( 'VH112947345', 'Automático', 2015, 'HIRAKI', 'Vino', 2231336, 42),
+( 'VH113947346', 'Electrico/automático', 2007, 'GT-R', 'Blanco escarcha', 377609, 59),
+( 'VH114947347', 'Electrico/estandar', 2008, 'MICRA', 'Negro', 267593, 39),
+( 'VH115947348', 'Electrico', 2009, 'MICRA', 'Rojo', 899120, 128),
+( 'VH116947349', 'Estandar', 2008, 'MICRA', 'Verde', 1144564, 156),
+( 'VH117947350', 'Automático', 2009, 'TIIDA', 'Amarillo', 698413, 75),
+( 'VH118947351', 'Electrico/automático', 2011, 'GT-R', 'Rojo/Negro', 1284025, 147),
+( 'VH119947352', 'Electrico/estandar', 2015, 'DATSUN', 'Gris', 265611, 135),
+( 'VH120947353', 'Electrico', 2012, 'MICRO', 'Plata', 1487652, 76),
+( 'VH121947354', 'Estandar', 2014, 'MICRA', 'Negro', 830447, 12),
+( 'VH122947355', 'Automático', 2009, 'TSURU', 'Camello', 1930230, 175),
+( 'VH123947356', 'Electrico/automático', 2005, 'PLATINA', 'Vino', 1411527, 130),
+( 'VH124947357', 'Electrico/estandar', 2017, 'TIIDA', 'Blanco escarcha', 2308658, 145),
+( 'VH125947358', 'Electrico', 2010, 'SENTRA', 'Negro', 946224, 4),
+( 'VH126947359', 'Estandar', 2013, 'TIIDA', 'Rojo', 883061, 164),
+( 'VH127947360', 'Automático', 2016, 'PLATINA', 'Verde', 1021725, 56),
+( 'VH128947361', 'Electrico/automático', 2012, 'MICRA', 'Amarillo', 1111573, 0),
+( 'VH129947362', 'Electrico/estandar', 2019, 'GT-R', 'Rojo/Negro', 836677, 64),
+( 'VH130947363', 'Electrico', 2014, 'GT-R', 'Gris', 1333051, 184),
+( 'VH131947364', 'Estandar', 2018, 'MAXIMA', 'Plata', 919431, 97),
+( 'VH132947365', 'Automático', 2016, 'SENTRA', 'Negro', 1492266, 129),
+( 'VH133947366', 'Electrico/automático', 2008, 'NOTE', 'Camello', 1812810, 84),
+( 'VH134947367', 'Electrico/estandar', 2001, 'TSURU', 'Vino', 1229806, 74),
+( 'VH135947368', 'Electrico', 2016, 'VERSA', 'Blanco escarcha', 2006841, 34),
+( 'VH136947369', 'Estandar', 2017, 'NOTE', 'Negro', 1374190, 52),
+( 'VH137947370', 'Automático', 2003, 'TSURU', 'Rojo', 1459870, 46),
+( 'VH138947371', 'Electrico/automático', 2015, 'GT-R', 'Verde', 1976404, 89),
+( 'VH139947372', 'Electrico/estandar', 2000, 'DATSUN', 'Amarillo', 294961, 92),
+( 'VH140947373', 'Electrico', 2000, 'GT-R', 'Rojo/Negro', 1317326, 194),
+( 'VH141947374', 'Estandar', 2005, 'NOTE', 'Gris', 2692466, 136),
+( 'VH142947375', 'Automático', 2013, 'VERSA', 'Plata', 2596227, 107),
+( 'VH143947376', 'Electrico/automático', 2004, 'APRIO', 'Negro', 1221123, 183),
+( 'VH144947377', 'Electrico/estandar', 2019, 'ALTIMA', 'Camello', 273769, 122),
+( 'VH145947378', 'Electrico', 2000, 'LUCINO', 'Vino', 459075, 46),
+( 'VH146947379', 'Estandar', 2012, 'VERSA', 'Blanco escarcha', 295669, 150),
+( 'VH147947380', 'Automático', 2013, 'NOTE', 'Negro', 1952596, 73),
+( 'VH148947381', 'Electrico/automático', 2008, 'MICRA', 'Rojo', 2863415, 131),
+( 'VH149947382', 'Electrico/estandar', 2002, 'DATSUN', 'Verde', 2544390, 56)
+GO
 
 
 
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH01947234', 'Estandar', 2011, 'ysnVFy', 'Camello', 1893700, 134)
 
-
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH02947235', 'Automático', 2000, 'VPITvb', 'Vino', 1806146, 147)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH03947236', 'Electrico/automático', 2008, 'xSeqdl', 'Blanco escarcha', 1062914, 6)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH04947237', 'Electrico/estandar', 2001, 'dbLjYI', 'Negro', 2332892, 100)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH05947238', 'Electrico', 2019, 'WnERXu', 'Rojo', 1149280, 142)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH06947239', 'Estandar', 2020, 'ttBdtC', 'Verde', 1351488, 183)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH07947240', 'Automático', 2009, 'uUtzHx', 'Amarillo', 710425, 141)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH08947241', 'Electrico/automático', 2013, 'xGqVbQ', 'Rojo/Negro', 1173839, 140)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH09947242', 'Electrico/estandar', 2006, 'NAijva', 'Gris', 1744112, 172)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH10947243', 'Electrico', 2000, 'lavKjt', 'Plata', 287514, 96)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH11947244', 'Estandar', 2010, 'QVUwnl', 'Negro', 1305578, 198)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH12947245', 'Automático', 2015, 'MSDyMj', 'Camello', 1776192, 190)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH13947246', 'Electrico/automático', 2008, 'iIoKwJ', 'Vino', 2455141, 62)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH14947247', 'Electrico/estandar', 2014, 'WRDywc', 'Blanco escarcha', 612867, 199)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH15947248', 'Electrico', 2004, 'wOCRYu', 'Negro', 2009063, 20)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH16947249', 'Estandar', 2019, 'OgvtvD', 'Rojo', 1546690, 178)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH17947250', 'Automático', 2013, 'CRhqII', 'Verde', 2116333, 194)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH18947251', 'Electrico/automático', 2010, 'AedAuI', 'Amarillo', 436131, 160)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH19947252', 'Electrico/estandar', 2007, 'EkXVWA', 'Rojo/Negro', 2315773, 32)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH20947253', 'Electrico', 2008, 'dnBirR', 'Gris', 1553348, 184)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH21947254', 'Estandar', 2010, 'QpFmfm', 'Plata', 2997532, 80)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH22947255', 'Automático', 2019, 'EUBiZK', 'Negro', 2468822, 40)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH23947256', 'Electrico/automático', 2008, 'IUSkhm', 'Camello', 1462684, 70)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH24947257', 'Electrico/estandar', 2002, 'CSMkRh', 'Vino', 2449173, 171)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH25947258', 'Electrico', 2018, 'ztSDuL', 'Blanco escarcha', 912738, 58)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH26947259', 'Estandar', 2020, 'BOBtxn', 'Negro', 2948537, 76)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH27947260', 'Automático', 2007, 'lPHecx', 'Rojo', 2581894, 75)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH28947261', 'Electrico/automático', 2018, 'zwAbCy', 'Verde', 1985289, 186)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH29947262', 'Electrico/estandar', 2002, 'qZLiEt', 'Amarillo', 2229794, 129)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH30947263', 'Electrico', 2000, 'hZpIwj', 'Rojo/Negro', 467681, 11)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH31947264', 'Estandar', 2016, 'kZuUIt', 'Gris', 1528402, 102)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH32947265', 'Automático', 2019, 'wAuuAs', 'Plata', 2516784, 106)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH33947266', 'Electrico/automático', 2002, 'IAlzgt', 'Negro', 396803, 189)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH34947267', 'Electrico/estandar', 2013, 'yivFIC', 'Camello', 1842150, 156)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH35947268', 'Electrico', 2020, 'KTcTWr', 'Vino', 1761855, 186)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH36947269', 'Estandar', 2008, 'DtAETW', 'Blanco escarcha', 2519870, 150)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH37947270', 'Automático', 2017, 'NADbqu', 'Negro', 2956525, 189)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH38947271', 'Electrico/automático', 2003, 'JfTRQR', 'Rojo', 2025830, 161)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH39947272', 'Electrico/estandar', 2006, 'omYJOj', 'Verde', 2623571, 136)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH40947273', 'Electrico', 2002, 'ozvYya', 'Amarillo', 566630, 3)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH41947274', 'Estandar', 2010, 'xrBhuI', 'Rojo/Negro', 2688257, 26)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH42947275', 'Automático', 2003, 'pEVWwa', 'Gris', 2360797, 111)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH43947276', 'Electrico/automático', 2012, 'TdJcxB', 'Plata', 424776, 70)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH44947277', 'Electrico/estandar', 2012, 'hMQlcz', 'Negro', 1443920, 126)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH45947278', 'Electrico', 2012, 'qQXPTJ', 'Camello', 697673, 198)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH46947279', 'Estandar', 2019, 'tdTRQZ', 'Vino', 949523, 142)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH47947280', 'Automático', 2000, 'gQGqhc', 'Blanco escarcha', 749096, 86)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH48947281', 'Electrico/automático', 2006, 'PgGFDM', 'Negro', 2555662, 35)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH49947282', 'Electrico/estandar', 2013, 'rXrTFe', 'Rojo', 2968374, 127)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH50947283', 'Electrico', 2001, 'RvZCFE', 'Verde', 2644453, 133)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH51947284', 'Estandar', 2017, 'EQwqbE', 'Amarillo', 671941, 157)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH52947285', 'Automático', 2000, 'UYaVaQ', 'Rojo/Negro', 2013055, 50)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH53947286', 'Electrico/automático', 2014, 'lcmEgZ', 'Gris', 2694789, 68)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH54947287', 'Electrico/estandar', 2005, 'HVgVZi', 'Plata', 471713, 74)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH55947288', 'Electrico', 2019, 'mmqGNK', 'Negro', 1211554, 170)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH56947289', 'Estandar', 2011, 'qSCdaX', 'Camello', 694939, 30)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH57947290', 'Automático', 2012, 'rskpLN', 'Vino', 1034455, 16)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH58947291', 'Electrico/automático', 2016, 'iYtcYv', 'Blanco escarcha', 839796, 27)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH59947292', 'Electrico/estandar', 2005, 'ElYTdY', 'Negro', 451085, 4)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH60947293', 'Electrico', 2005, 'WaPVhZ', 'Rojo', 1450782, 68)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH61947294', 'Estandar', 2011, 'WYpIwd', 'Verde', 2348500, 119)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH62947295', 'Automático', 2004, 'YIYNFB', 'Amarillo', 430457, 4)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH63947296', 'Electrico/automático', 2020, 'BShGmH', 'Rojo/Negro', 2408169, 86)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH64947297', 'Electrico/estandar', 2007, 'SjCHry', 'Gris', 2321488, 186)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH65947298', 'Electrico', 2020, 'kqdlYy', 'Plata', 2142572, 150)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH66947299', 'Estandar', 2011, 'iGWJdA', 'Negro', 428110, 30)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH67947300', 'Automático', 2019, 'qdSjrv', 'Camello', 278088, 110)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH68947301', 'Electrico/automático', 2018, 'WsLUwW', 'Vino', 1568496, 54)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH69947302', 'Electrico/estandar', 2006, 'hbkCLE', 'Blanco escarcha', 776284, 110)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH70947303', 'Electrico', 2012, 'AisVpi', 'Negro', 2915463, 44)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH71947304', 'Estandar', 2019, 'OKermS', 'Rojo', 2338731, 41)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH72947305', 'Automático', 2020, 'vJntXB', 'Verde', 2029311, 61)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-
-( 'VH73947306', 'Electrico/automático', 2010, 'tZwkTf', 'Amarillo', 1177621, 190)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH74947307', 'Electrico/estandar', 2006, 'vzVWNm', 'Rojo/Negro', 1247112, 195)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH75947308', 'Electrico', 2002, 'YSeImW', 'Gris', 2580124, 56)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH76947309', 'Estandar', 2011, 'EbnBLI', 'Plata', 2057906, 11)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH77947310', 'Automático', 2011, 'ofkgOG', 'Negro', 2679587, 127)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH78947311', 'Electrico/automático', 2010, 'YOIeXj', 'Camello', 1809336, 95)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH79947312', 'Electrico/estandar', 2017, 'tqcRrP', 'Vino', 2808492, 193)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH80947313', 'Electrico', 2007, 'gAhefx', 'Blanco escarcha', 1261120, 185)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH81947314', 'Estandar', 2013, 'naSvyx', 'Negro', 889771, 49)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH82947315', 'Automático', 2005, 'UpCdsE', 'Rojo', 783260, 85)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH83947316', 'Electrico/automático', 2020, 'bUfeUA', 'Verde', 1374327, 129)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH84947317', 'Electrico/estandar', 2018, 'PbWAyj', 'Amarillo', 2607455, 120)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH85947318', 'Electrico', 2013, 'OYjtWD', 'Rojo/Negro', 1209344, 165)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH86947319', 'Estandar', 2018, 'IrqyqY', 'Gris', 750094, 114)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH87947320', 'Automático', 2014, 'qSovSP', 'Plata', 986130, 66)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH88947321', 'Electrico/automático', 2000, 'ihiioX', 'Negro', 1062346, 28)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH89947322', 'Electrico/estandar', 2000, 'yQTmoP', 'Camello', 836343, 12)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH90947323', 'Electrico', 2013, 'LTHSGO', 'Vino', 211110, 172)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH91947324', 'Estandar', 2000, 'eeYHiS', 'Blanco escarcha', 2696056, 65)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH92947325', 'Automático', 2000, 'LRajaX', 'Negro', 1494310, 12)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH93947326', 'Electrico/automático', 2000, 'QYQATV', 'Rojo', 819001, 168)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH94947327', 'Electrico/estandar', 2008, 'zoPARB', 'Verde', 1141504, 134)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH95947328', 'Electrico', 2007, 'ecoqYf', 'Amarillo', 680813, 28)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH96947329', 'Estandar', 2007, 'onhnUl', 'Rojo/Negro', 798991, 1)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH97947330', 'Automático', 2015, 'pmRWqf', 'Gris', 768207, 86)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH98947331', 'Electrico/automático', 2015, 'TgVRtL', 'Plata', 1956285, 151)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH99947332', 'Electrico/estandar', 2014, 'tNFSIG', 'Negro', 2090790, 161)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH100947333', 'Electrico', 2001, 'gfZmsS', 'Camello', 1403474, 141)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH101947334', 'Estandar', 2020, 'XASXex', 'Vino', 1794048, 96)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH102947335', 'Automático', 2016, 'HZgHAP', 'Blanco escarcha', 537814, 110)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH103947336', 'Electrico/automático', 2012, 'taGAac', 'Negro', 802457, 79)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH104947337', 'Electrico/estandar', 2019, 'uoQqfv', 'Rojo', 2740886, 118)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH105947338', 'Electrico', 2002, 'PfoHEG', 'Verde', 1299743, 185)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH106947339', 'Estandar', 2018, 'zmwrQG', 'Amarillo', 258600, 84)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH107947340', 'Automático', 2017, 'RiWvjz', 'Rojo/Negro', 2983753, 83)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH108947341', 'Electrico/automático', 2017, 'zTeQpD', 'Gris', 325579, 123)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH109947342', 'Electrico/estandar', 2013, 'TChxPQ', 'Plata', 2447164, 47)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH110947343', 'Electrico', 2001, 'FftTDD', 'Negro', 429432, 92)
-
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH111947344', 'Estandar', 2006, 'sXoPlh', 'Camello', 369216, 115)
-
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH112947345', 'Automático', 2004, 'mHSZsS', 'Vino', 711920, 60)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH113947346', 'Electrico/automático', 2000, 'oPsgWt', 'Blanco escarcha', 2201432, 8)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH114947347', 'Electrico/estandar', 2009, 'wnMYwB', 'Negro', 511941, 94)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH115947348', 'Electrico', 2008, 'lLLHFU', 'Rojo', 841289, 145)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH116947349', 'Estandar', 2000, 'rFvcpu', 'Verde', 2084935, 32)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH117947350', 'Automático', 2001, 'JMZxgQ', 'Amarillo', 2868032, 112)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH118947351', 'Electrico/automático', 2003, 'bwPpgw', 'Rojo/Negro', 756127, 87)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH119947352', 'Electrico/estandar', 2019, 'QIydjX', 'Gris', 1326275, 69)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH120947353', 'Electrico', 2014, 'tZgWWw', 'Plata', 1708796, 40)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH121947354', 'Estandar', 2010, 'rwBdZs', 'Negro', 2154148, 119)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH122947355', 'Automático', 2003, 'ZZWnYp', 'Camello', 257422, 5)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH123947356', 'Electrico/automático', 2007, 'LWBhwB', 'Vino', 1538091, 58)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH124947357', 'Electrico/estandar', 2001, 'PXvwPo', 'Blanco escarcha', 549385, 15)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH125947358', 'Electrico', 2017, 'sSEUow', 'Negro', 416868, 111)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH126947359', 'Estandar', 2009, 'wXIywa', 'Rojo', 1174295, 30)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH127947360', 'Automático', 2005, 'FZFziM', 'Verde', 2340019, 150)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH128947361', 'Electrico/automático', 2014, 'ZTutzS', 'Amarillo', 1289876, 36)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH129947362', 'Electrico/estandar', 2002, 'qYkxtd', 'Rojo/Negro', 1704201, 166)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH130947363', 'Electrico', 2011, 'CxVfro', 'Gris', 2606414, 154)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH131947364', 'Estandar', 2006, 'hOIRPl', 'Plata', 244317, 33)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH132947365', 'Automático', 2013, 'wUqMhD', 'Negro', 1473539, 91)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH133947366', 'Electrico/automático', 2019, 'XQjghs', 'Camello', 1450746, 163)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH134947367', 'Electrico/estandar', 2015, 'kdqmgp', 'Vino', 1804878, 116)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH135947368', 'Electrico', 2004, 'MwEPKE', 'Blanco escarcha', 2631618, 83)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH136947369', 'Estandar', 2003, 'FHlvXN', 'Negro', 2235691, 131)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH137947370', 'Automático', 2000, 'NcUpBw', 'Rojo', 658201, 72)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH138947371', 'Electrico/automático', 2020, 'AUBZBD', 'Verde', 1969981, 73)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH139947372', 'Electrico/estandar', 2009, 'DOgOfU', 'Amarillo', 1846671, 159)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH140947373', 'Electrico', 2015, 'PGkpBa', 'Rojo/Negro', 1026942, 33)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH141947374', 'Estandar', 2020, 'XRDtFN', 'Gris', 1671763, 149)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH142947375', 'Automático', 2009, 'kGKjMe', 'Plata', 2488479, 14)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH143947376', 'Electrico/automático', 2011, 'lrfCJz', 'Negro', 2014112, 104)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH144947377', 'Electrico/estandar', 2012, 'nUJJtp', 'Camello', 1482659, 33)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH145947378', 'Electrico', 2018, 'xOccSu', 'Vino', 1456806, 32)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH146947379', 'Estandar', 2010, 'xpSlaJ', 'Blanco escarcha', 271314, 174)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH147947380', 'Automático', 2014, 'zQFumh', 'Negro', 2217501, 194)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH148947381', 'Electrico/automático', 2013, 'wIcZqr', 'Rojo', 358739, 93)
-insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
-( 'VH149947382', 'Electrico/estandar', 2003, 'lZhrjP', 'Verde', 2986135, 122)
-;

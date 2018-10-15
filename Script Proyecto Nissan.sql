@@ -23,6 +23,7 @@ GO
 use Nissan;
 GO
 
+--SELECT * FROM ALMACEN_EMPRESA
 CREATE TABLE ALMACEN_EMPRESA (
 	ID_ALMACEN_EMPRESA VARCHAR (15)  NOT null,
 	DESCRIPCION VARCHAR (300) NULL,
@@ -35,6 +36,7 @@ CREATE TABLE ALMACEN_EMPRESA (
 ); 
 GO
 
+--SELECT * FROM DISTRIBUIDOR_O_SUCURSAL
 CREATE TABLE DISTRIBUIDOR_O_SUCURSAL(
     ID_SUCURSAL VARCHAR(15) NOT NULL,
 	DESCRIPCION VARCHAR (300) NULL,
@@ -48,19 +50,20 @@ CREATE TABLE DISTRIBUIDOR_O_SUCURSAL(
 ); 
 GO
 
+--SELECT * FROM VEHICULO
 CREATE TABLE VEHICULO (
 	ID_VEHICULO VARCHAR (15)  NOT NULL,
 	DECRIPCION VARCHAR (300) NULL ,
 	TIPO VARCHAR (300) NULL ,
 	AÑO INT ,
-	MODELO VARCHAR (30) NULL ,
-	COLOR VARCHAR (50) NULL ,
+	MODELO VARCHAR (300) NULL ,
+	COLOR VARCHAR (200) NULL ,
 	PRECIO MONEY NULL, 
 	EXISTENCIA BIGINT NULL
 );
 GO
 
-
+--SELECT * FROM ACCESORIO
 CREATE TABLE ACCESORIO (
 	ID_ACCESORIO VARCHAR (15)  NOT NULL,
 	DECRIPCION VARCHAR (200) NOT NULL,
@@ -358,6 +361,7 @@ GO
 
 
 /*******************************RESTRICCION UNIQUE**************************/
+/* 1.- La CURP debe ser unica en cada persona*/
 ALTER TABLE CLIENTE
 ADD CONSTRAINT UX_curp
 UNIQUE NONCLUSTERED (CURP)
@@ -367,33 +371,84 @@ GO
 
 
 /******************************1. Restricciones de dominio: DEFAULT*****************************/
-/*valor por defecto para sexo es 'M' (masculino), 'F'(Femenino) insertarlo*/
-create default df_sexo
-as 'M'
-go
-exec sp_bindefault 'df_sexo', 'CLIENTE.SEXO'--variable sexo de persona, tome la variable df_sexo
-go
+/* 1.- valor por defecto para sexo es 'M' (masculino), 'F'(Femenino) insertarlo*/
+CREATE DEFAULT df_sexo
+AS 'M'
+GO
+EXEC sp_bindefault 'df_sexo', 'CLIENTE.SEXO'--variable sexo de persona, tome la variable df_sexo
+GO
 
-/*valor por defecto para municipio es Leon*/
-create default df_ciudad
-as 'León'
-go
-exec sp_bindefault 'df_municipio', 'DISTRIBUIDOR_O_SUCURSAL.CIUDAD'
-go
-exec sp_bindefault 'df_municipio', 'DISTRIBUIDOR_O_SUCURSAL.CIUDAD'
-go
+/* 2.- valor por defecto para municipio es Leon*/
+CREATE DEFAULT df_ciudad
+AS 'León'
+GO
+EXEC sp_bindefault 'df_ciudad', 'DISTRIBUIDOR_O_SUCURSAL.CIUDAD'
+GO
+EXEC sp_bindefault 'df_ciudad', 'ALMACEN_EMPRESA.CIUDAD'
+GO
 
-/*valor por defecto para municipio es Guanajuato*/
-create default df_estado
-as 'Guanajuato'
-go
-exec sp_bindefault 'df_estado', 'DISTRIBUIDOR_O_SUCURSAL.estado'
-go
-exec sp_bindefault 'df_estado', 'DISTRIBUIDOR_O_SUCURSAL.estado'
-go
+/*3.- valor por defecto para municipio es Guanajuato*/
+CREATE DEFAULT df_estado
+AS 'Guanajuato'
+GO
+EXEC sp_bindefault 'df_estado', 'DISTRIBUIDOR_O_SUCURSAL.estado'
+GO
+EXEC sp_bindefault 'df_estado', 'ALMACEN_EMPRESA.estado'
+GO
+
+/*4.- valor por defecto para las descripciones de las facturas y las ventas ex "Sin descripcion"*/
+CREATE DEFAULT df_descripcion
+AS 'Sin descripcion'
+GO
+EXEC sp_bindefault 'df_descripcion', 'FACTURA_ALMACEN.descripcion'
+GO
+
+/*5.- valor por defecto para el TIPO de un VEHICULO es "Eléctrico"*/
+CREATE DEFAULT df_tipo_vehiculo
+AS 'Eléctrico'
+GO
+EXEC sp_bindefault 'df_tipo_vehiculo', 'VEHICULO.tipo'
+GO
+
+/*5.- valor por defecto para el COLOR de un VEHICULO es "Eléctrico"*/
+CREATE DEFAULT df_color_vehiculo
+AS 'Grafito'
+GO
+EXEC sp_bindefault 'df_color_vehiculo', 'VEHICULO.color'
+GO
+
+/*6.- valor por defecto para el MODELO de un VEHICULO es "TSURU"*/
+CREATE DEFAULT df_modelo_vehiculo
+AS 'TSURU'
+GO
+EXEC sp_bindefault 'df_modelo_vehiculo', 'VEHICULO.modelo'
+GO
+
+/*7.- valor por defecto para la puntuacion de una SUCURSAL es 0*/
+CREATE DEFAULT df_puntuacion_sucursal
+AS 0
+GO
+EXEC sp_bindefault 'df_puntuacion_sucursal', 'DISTRIBUIDOR_O_SUCURSAL.puntuacion'
+GO
+
 
 
 /*************************************************2. RESTRICCIONES DE DOMINIO:  RULES****************/
+/*  1- SOLAMENTE SE TIENEN LOS MODELOS DE COCHES MICRO,HIRAKI,
+ALTIMA,APRIO,DATSUN,GT-R,LUCINO,MAXIMA,MICRA,NOTE,PLATINA,SENTRA,TIIDA,TSURU,VERSA*/	    
+          
+CREATE RULE RL_MODELOS_COCHES
+AS 
+@A_MODELOS IN ('MICRO','HIRAKI','ALTIMA','APRIO','DATSUN','GT-R','LUCINO','MAXIMA','MICRA',
+'NOTE','PLATINA','SENTRA','TIIDA','TSURU','VERSA')
+GO
+EXEC SP_BINDRULE 'RL_MODELOS_COCHES','VEHICULO.MODELO'
+GO
+
+
+
+
+
 /*REGLA: solo admite en atributo sexo de la tabla persona M -> masculino  y una F- > femenino*/
 create rule rl_sexo
 as 
@@ -410,34 +465,43 @@ go
 exec sp_bindrule 'rl_cp','DISTRIBUIDOR_O_SUCURSAL.cp'
 exec sp_bindrule 'rl_cp','DISTRIBUIDOR_O_SUCURSAL.cp'
 GO
-
-create rule rl_curp as
+/*
+create DROP rule rl_curp as
 --like compara cadenas
 	@curp LIKE
-	('[a-z][a-z][a-z][a-z][0-9][0-9][0-9][0-9][0-9][0-9][HM][a-z][a-z][a-z][a-z][a-z][0-9a-zA-Z][0-9]')
+	('[a-z][a-z][a-z][a-z][0-9][0-9][0-9][0-9][0-9][0-9][HM][a-z][a-z][a-z][a-z][a-z][0-9a-z][0-9]') OR
+	@curp LIKE
+	('[a-z][a-z][a-z][a-z][0-9][0-9][0-9][0-9][0-9][0-9][HM][a-z][a-z][a-z][a-z][a-z][0-9a-z][0-9a-z][0-9a-z]')
 go
-exec sp_bindrule'rl_curp','CLIENTE.curp'
-go
-
-
-/**************************************3. Restricciones de dominio: CHECK*********************/
-/*Restriccion CHECK: las fechas finales deben ser mayores a las fechas de inicio*/
-/*
-ALTER TABLE CLIENTE
-ADD CONSTRAINT 
-check_curp CHECK
-	(curp LIKE '[a-z][a-z][a-z][a-z][0-9][0-9][0-9][0-9][0-9][0-9][HM][a-z][a-z][a-z][a-z][a-z][0-9][0-9]')
+exec sp_bindrule 'rl_curp','CLIENTE.curp'
 go
 */
 
-
-
-
-
-
-
-
-
+/**************************************3. Restricciones de dominio: CHECK*********************/
+ALTER TABLE DISTRIBUIDOR_O_SUCURSAL ADD CONSTRAINT CK_CIUDADES_ESTADOS
+      CHECK( (CIUDAD IN ('ABASOLO','ACÁMBARO','SAN MIGUEL DE ALLENDE','APASEO EL ALTO','APASEO EL GRANDE',
+				'ATARJEA','CELAYA','MANUEL DOBLADO','COMONFORT','CORONEO','CORTAZAR','CUERÁMARO','DOCTOR MORA',
+				'DOLORES HIDALGO CUNA DE LA INDEPENDENCIA NACIONAL','GUANAJUATO','HUANÍMARO','IRAPUATO',
+				'JARAL DEL PROGRESO','JERÉCUARO','LEON','MOROLEÓN','OCAMPO','PÉNJAMO','PUEBLO NUEVO','PURÍSIMA DEL RINCÓN',
+				'ROMITA','SALAMANCA','SALVATIERRA','SAN DIEGO DE LA UNIÓN','SAN FELIPE','SAN FRANCISCO DEL RINCÓN',
+				'SAN JOSÉ ITURBIDE','SAN LUIS DE LA PAZ','SANTA CATARINA','SANTA CRUZ DE JUVENTINO ROSAS',
+				'SANTIAGO MARAVATÍO','SILAO','TARANDACUAO','TARIMORO','TIERRA BLANCA','URIANGATO',
+				'VALLE DE SANTIAGO','VICTORIA','VILLAGRÁN','XICHÚ','YURIRIA') 
+				AND Estado ='GUANAJUATO')  OR
+			(CIUDAD IN ('AZCAPOTZALCO','COYOACAN','CUAJIMALPA DE MORELOS','GUSTAVO A. MADERO',
+        		'IZTACALCO','IZTAPALAPA','LA MAGDALENA CONTRERAS','MILPA ALTA','ALVARO OBREGON',
+        		'TLÁHUAC','TLALPAN','XOCHIMILCO','BENITO JUÁREZ','CUAUHTÉMOC','MIGUEL HIDALGO','VENUSTIANO CARRANZA')
+				AND Estado ='Ciudad de Mexico')     OR
+			(CIUDAD IN('ACAMBAY DE RUÍZ CASTAÑEDA','ACOLMAN','ACULCO','ALMOLOYA DE ALQUISIRAS','ALMOLOYA DE JUÁREZ',
+				'ALMOLOYA DEL RÍO','AMANALCO','AMATEPEC','AMECAMECA','APAXCO','ATENCO','ATIZAPÁN','ATIZAPÁN DE ZARAGOZA',
+				'ATLACOMULCO','ATLAUTLA','AXAPUSCO','AYAPANGO','CALIMAYA','CAPULHUAC','COACALCO DE BERRIOZÁBAL',
+				'COATEPEC HARINAS','COCOTITLÁN','COYOTEPEC','CUAUTITLÁN','CHALCO','CHAPA DE MOTA','CHAPULTEPEC',
+				'CHIAUTLA','CHICOLOAPAN','CHICONCUAC','CHIMALHUACÁN','DONATO GUERRA','ECATEPEC DE MORELOS','ECATZINGO',
+				'HUEHUETOCA','HUEYPOXTLA','HUIXQUILUCAN','ISIDRO FABELA','IXTAPALUCA','IXTAPAN DE LA SAL','IXTAPAN DEL ORO',
+				'IXTLAHUACA','XALATLACO','JALTENCO','JILOTEPEC','MORELOS')   
+				AND Estado ='Estado de Mexico')
+			)
+GO
 
 
 /*************************************************************************************************************************************
@@ -587,38 +651,30 @@ VALUES  ('CL0000030','Acton','Fuentes','Blackwell','BCHZ302937HAEUZG18','1978/09
 
 
 
-
-
 -----------------------------------ALMACEN_EMPRESA-------------------------------------------------------------    SELECT * FROM ALMACEN_EMPRESA
 
 INSERT INTO ALMACEN_EMPRESA(ID_ALMACEN_EMPRESA,DESCRIPCION,ESTADO,CIUDAD,CP,COLONIA,CALLE,NUM_INT) 
 VALUES
-('ALM0001','ALMACEN PRINCIPAL','Mexico','Atotonilco','15208','centro','Teoloyucan','878'),
+('ALM0001','ALMACEN PRINCIPAL','Estado de Mexico','Aculco','15208','centro','Teoloyucan','878'),
 ('ALM0002','ALMACEN SECUNDARIO','Ciudad de Mexico','Coyoacan','29534','centro','Liberta','711'),
 ('ALM0003','ALMACEN PRINCIPAL','Ciudad de Mexico','Itztapalapa','47574','centro','El refugio','219'),
 ('ALM0004','ALMACEN PRINCIPAL','Ciudad de Mexico','Alvaro Obregon','93148','centro','Omega','940')
 
 
-
-
 -----------------------------------DISTRIBUIDOR_O_SUCURSAL  -------------------------------------------------   SELECT * FROM DISTRIBUIDOR_O_SUCURSAL
-
-
 
 INSERT INTO DISTRIBUIDOR_O_SUCURSAL(ID_SUCURSAL,DESCRIPCION,ESTADO,CIUDAD,CP,COLONIA,CALLE,NUM_INT,PUNTUACION) 
 VALUES				
-('SUC00001','NISSAN GUANAJUATO','Guanajuato','Guanajuato','93100','centro'		,'20 de Enero'			,'611'	  ,0										),
-('SUC00002','NISSAN IRAPUATO','Guanajuato','Irapuato','59392','centro'			,'Alamo'				,'549'	,0										),
-('SUC00003','NISSAN 1 LEON','Guanajuato','Leon','66743'	,'centro'				,'Agua Azul'			,'578'	,0										),
-('SUC00004','NISSAN 2 LEON','Guanajuato','Leon','66743'	,'centro'				,'San  Miguel'			,'500'	,0										),
-('SUC00005','SUC NISSAN DE SILAO','Guanajuato','Silao','84160','centro'		,'Alamo del valle'		,'429'		,0										),
-('SUC00006','NISSAN YURIDIA','Guanajuato','Yuridia','25524'	,'centro'		,'Morelos'				,'780'		,0										),
-('SUC00007','NISSAN SMA','Guanajuato','San  Miguel de Allende','50783'	,'centro'			,'Madero'				,'102'		,0					),
-('SUC00008','NISSAN LA PAZ','Mexico','La paz','14764','centro'				,'Valadez'				,'623'		,0										),
-('SUC00009','NISSAN LERMA','Mexico','Lerma','50508'	,'centro'			,'El dorado'			,'649'			,0								),
-('SUC000010','NISSAN 1 MORELOS','Mexico','Morelos','30897','centro'				,'Lopez'				,'487'	,0										)
-
-
+('SUC00001','NISSAN GUANAJUATO','Guanajuato','Guanajuato','93100','centro'		,'20 de Enero'			,'611'	  ,0),
+('SUC00002','NISSAN IRAPUATO','Guanajuato','Irapuato','59392','centro'			,'Alamo'				,'549'	,0	),
+('SUC00003','NISSAN 1 LEON','Guanajuato','Leon','66743'	,'centro'				,'Agua Azul'			,'578'	,0			),
+('SUC00004','NISSAN 2 LEON','Guanajuato','Leon','66743'	,'centro'				,'San  Miguel'			,'500'	,0	),
+('SUC00005','SUC NISSAN DE SILAO','Guanajuato','Silao','84160','centro'		,'Alamo del valle'		,'429'		,0),
+('SUC00006','NISSAN YURIRIA','Guanajuato','Yuriria','25524'	,'centro'		,'Morelos'				,'780'		,0),
+('SUC00007','NISSAN SMA','Guanajuato','Ocampo','50783'	,'centro'			,'Madero'				,'102'		,0),
+('SUC00008','NISSAN LA PAZ','Estado de Mexico','Calimaya','14764','centro'	,'Valadez'	,'623'	,0),
+('SUC00009','NISSAN LERMA','Estado de Mexico','Coyotepec','50508'	,'centro','El dorado','649',0),
+('SUC000010','NISSAN 1 MORELOS','Estado de Mexico','Morelos','30897','centro','Lopez','487'	,0)
 
 
 
@@ -671,8 +727,6 @@ values ('AC0000001','Antifaz',2429,2453),
 GO
 
 
-
-
 insert into ACCESORIO (ID_ACCESORIO,DECRIPCION,PRECIO,EXISTENCIA) 
 values  ('AC0000017','Barras porta equipaje Osun reforzadas',550,320),
 	('AC0000018','Daewoo kit Auto con 2 bocinas 6.5 con control',965,2099),
@@ -708,53 +762,4 @@ values  ('AC0000017','Barras porta equipaje Osun reforzadas',550,320),
 	('AC0000048','Boton palanca de cambios Sonic 2012',1342,19),
 	('AC0000049','Porta placa europea',160,100),
 	('AC0000050','Tapa codera vinilpiel Jetta Clasico A4',389,1998)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
