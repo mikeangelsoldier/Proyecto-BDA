@@ -36,11 +36,13 @@ DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que ACCESORIOS VENDE
 **************************************************************************************************/
 
 CREATE PROC  SP_LLENA_VENTA_ACCESORIO 
-  @CUENTA BIGINT,  @N INT
+  @CUENTA BIGINT,  @N INT , @FORMA_PAGO VARCHAR(10)
   AS
      begin tran llena_venta_accesorio
 	 DECLARE @ID_VENTA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
-	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_ACCESORIO VARCHAR(15), @cantidad int,
+	 @ID_CLIENTE VARCHAR(15),
+	 @CONT INT = 1 , @CONT2 INT ,
+	 @ID_ACCESORIO VARCHAR(15), @cantidad int,
       	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
       	
       
@@ -61,7 +63,7 @@ CREATE PROC  SP_LLENA_VENTA_ACCESORIO
 	    SET @CTA = FLOOR( (RAND() * 720) + 1)
 	    SET @FECHA = GETDATE() - @CTA
 	    
-	    --Seleccionar CLIENTE aleatoria
+	    --Seleccionar CLIENTE aleatorio
         SET @cantidad_clientes= (SELECT COUNT(ID_CLIENTE) FROM CLIENTE)--total de sucursales
 	    SET @CTA = FLOOR( (RAND() * @cantidad_clientes) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
 	    
@@ -72,7 +74,7 @@ CREATE PROC  SP_LLENA_VENTA_ACCESORIO
 				
 		
 	    
-	  INSERT INTO VENTA_ACCESORIO (ID_VENTA_ACCESORIO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA)VALUES(@ID_VENTA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA )
+	  INSERT INTO VENTA_ACCESORIO (ID_VENTA_ACCESORIO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA,FORMA_PAGO)VALUES(@ID_VENTA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA,@FORMA_PAGO)
 	    
 	  --Poner los detalles de venta aleatorios para una misma venta
 	    SET @CTA1 = FLOOR( (RAND() * 20) + 1)
@@ -130,14 +132,17 @@ GO
 
 
 --ejecucion
---EXEC SP_LLENA_VENTA_ACCESORIO  50010,  60000
-EXEC SP_LLENA_VENTA_ACCESORIO  20000,  200
+EXEC SP_LLENA_VENTA_ACCESORIO  70,  600, 'EFECTIVO'
+--EXEC SP_LLENA_VENTA_ACCESORIO  100,  50000, 'EFECTIVO'
+--EXEC SP_LLENA_VENTA_ACCESORIO  2,  20300, 'TARJETA'
+
 --cuando corra el procedimiento cambiar rango o borrar datos de ventas y sus detalles
 --DELETE FROM DET_VENTA_ACCESORIO
 --DELETE FROM VENTA_ACCESORIO
 
 
 SELECT * FROM VENTA_ACCESORIO
+SELECT * FROM DET_VENTA_ACCESORIO
 GO
 
 SELECT FK_VENTA_ACCESORIO,FK_ACCESORIO FROM DET_VENTA_ACCESORIO

@@ -19,8 +19,8 @@ SELECT ROW_NUMBER() OVER (ORDER BY ID_SERVICIO) AS INDICE, ID_SERVICIO
 GO
 
 SELECT * FROM ServicioPP
-
 GO
+
 CREATE VIEW clientePP3
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_CLIENTE) AS INDICE, ID_CLIENTE 
@@ -36,11 +36,11 @@ DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que servicioS VENDE
 **************************************************************************************************/
 
 CREATE PROC  SP_LLENA_FACT_SERVICIO
-  @CUENTA BIGINT,  @N INT
+  @CUENTA BIGINT,  @N INT , @FORMA_PAGO VARCHAR(10)
   AS
      begin tran llena_fact_servicio
 	 DECLARE @ID_FACTURA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
-	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_SERVICIO VARCHAR(15), @cantidad int,
+	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_SERVICIO VARCHAR(15), @puntuacion int,
       	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_servicios int
       	
       
@@ -72,7 +72,7 @@ CREATE PROC  SP_LLENA_FACT_SERVICIO
 				
 		
 	    
-	  INSERT INTO FACT_SERVICIO (ID_FACT_SERVICIO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA)VALUES(@ID_FACTURA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA )
+	  INSERT INTO FACT_SERVICIO (ID_FACT_SERVICIO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA,FORMA_PAGO)VALUES(@ID_FACTURA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA,@FORMA_PAGO )
 	    
 	  --Poner los detalles de venta aleatorios para una misma venta
 	    SET @CTA1 = FLOOR( (RAND() * 20) + 1)
@@ -90,13 +90,14 @@ CREATE PROC  SP_LLENA_FACT_SERVICIO
             
             
 	      SET @CTA = FLOOR( (RAND() * 10) + 4)
-	      SET @cantidad= @CTA
-	      
+
+		  --Valor aleatorio para el nivel de satisfaccion o puntuacion para un servicio prestado
+	      SET @puntuacion= FLOOR( (RAND() * 10) + 1) 
          
 		  if NOT EXISTS (SELECT FK_FACT_SERVICIO,FK_servicio FROM DET_FACT_SERVICIO
 		          WHERE FK_servicio = @ID_servicio AND FK_FACT_SERVICIO = @ID_FACTURA)
 		  BEGIN  
-		     INSERT INTO DET_FACT_SERVICIO VALUES(@ID_FACTURA,@ID_servicio,@cantidad)
+		     INSERT INTO DET_FACT_SERVICIO VALUES(@ID_FACTURA,@ID_servicio,@puntuacion)
 			 SET @CONT2 = @CONT2 + 1
 			 ---POR EL TRIGGER
 			 --update articulo set EXISTENCIA_ACTUAL = EXISTENCIA_ACTUAL + @cant_rec,
@@ -130,10 +131,9 @@ GO
 
 
 --ejecucion
---EXEC SP_LLENA_VENTA_servicio  50010,  60000
-EXEC SP_LLENA_FACT_SERVICIO  20000,  200
---EXEC SP_LLENA_VENTA_servicio  90000,  60000
-
+EXEC SP_LLENA_FACT_SERVICIO  400,  586, 'EFECTIVO'
+--EXEC SP_LLENA_FACT_SERVICIO  100,  40100, 'EFECTIVO'
+--EXEC SP_LLENA_FACT_SERVICIO  2,  13780, 'TARJETA'
 
 
 SELECT * from FACT_SERVICIO
