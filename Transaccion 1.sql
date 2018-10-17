@@ -1,11 +1,11 @@
 
 /*
   Obtener el VEHICULO  que mayor cantidad se haya VENDIDO en el 
-  mes 'X', año 'Y'  de un COLOR  'Z', MODELO  'M';  almacenelo
+  mes 'X', ANIO 'Y'  de un COLOR  'Z', MODELO  'M';  almacenelo
   en una nueva tabla los resultados de 'N' transacciones
   para realizar un posible CUBO OLAP*/
   /*LOGICA 
-    PASO 1. obtener las VENTAS_VEHICULO realizados en 'X' mes, 'Y' año
+    PASO 1. obtener las VENTAS_VEHICULO realizados en 'X' mes, 'Y' ANIO
     PASO2.  Obtener todos los VEHICULOS  que son de 'X' COLOR 
 	        'Y'  MODELO 
 	PASO 3. Obtener las VEHICULOS_PEDIDOS(CANT_PEDIDA)  de
@@ -18,21 +18,21 @@
 USE Nissan
 GO
 
-	create function fn_ventas_vehiculos(@mes SMALLINT, @año smallint)
+	create function fn_ventas_vehiculos(@mes SMALLINT, @ANIO smallint)
 	returns TABLE
 	AS
 	  RETURN(select ID_VENTA_VEHICULO, FECHA from VENTA_VEHICULO
-	         where  month(FECHA)=@MES and year(FECHA) = @AÑO) 
+	         where  month(FECHA)=@MES and year(FECHA) = @ANIO) 
     GO
    /*******************************************************************/
 	--PRUEBA 
 	--SELECT * FROM VENTA_VEHICULO 
 
-SELECT * FROM DBO.fn_ventas_vehiculos(1,2017)--vehiculos vendidos en el MES XX, año XXXX
+SELECT * FROM DBO.fn_ventas_vehiculos(1,2017)--vehiculos vendidos en el MES XX, ANIO XXXX
 GO
     
 	   /*************************************************************/
-CREATE  FUNCTION FN_VEHICULOS( @MODELO VARCHAR(300),@COLOR VARCHAR(200))
+CREATE FUNCTION FN_VEHICULOS( @MODELO VARCHAR(300),@COLOR VARCHAR(200))
 	RETURNS TABLE
 	AS 
 		RETURN( SELECT ID_VEHICULO,MODELO, COLOR FROM VEHICULO  
@@ -46,13 +46,13 @@ GO
 GO
 
 /******************************************************************************************/
---vehiculo mas vendido en el MES X, AÑO Y,  del modelo A, COLOR B
-CREATE FUNCTION FN_SUMA_TOTALES(@MES SMALLINT, @AÑO SMALLINT,@MODELO VARCHAR(300), @COLOR VARCHAR(200))
+--vehiculo mas vendido en el MES X, ANIO Y,  del modelo A, COLOR B
+CREATE FUNCTION FN_SUMA_TOTALES(@MES SMALLINT, @ANIO SMALLINT,@MODELO VARCHAR(300), @COLOR VARCHAR(200))
 	   RETURNS TABLE
 	   AS 
 	    RETURN(SELECT FK_VEHICULO, SUM(CANTIDAD) SUM_TOT
 	    FROM DET_VENTA_VEHICULO WHERE FK_VENTA_VEHICULO IN
-	          (SELECT ID_VENTA_VEHICULO FROM DBO.fn_ventas_vehiculos(@MES,@AÑO))
+	          (SELECT ID_VENTA_VEHICULO FROM DBO.fn_ventas_vehiculos(@MES,@ANIO))
 			  AND FK_VEHICULO 
 			    IN (SELECT ID_VEHICULO FROM FN_VEHICULOS(@MODELO, @COLOR ))
        GROUP BY FK_VEHICULO 
@@ -70,7 +70,7 @@ GO
 CREATE TABLE VEHICULOS_DEMANDADOS(
 	ID_VEHICULO  VARCHAR(15),
 	MES SMALLINT,
-	AÑO SMALLINT,
+	ANIO SMALLINT,
 	MODELO VARCHAR(300),
 	COLOR VARCHAR(200)   
 )
@@ -82,17 +82,17 @@ SELECT DISTINCT  * FROM VEHICULOS_DEMANDADOS
 GO
 
 	/****************************************************/
-CREATE PROC  TRANS_LLENADO_VEHICULOS_DEMANDADOS
-	@MES SMALLINT, @AÑO SMALLINT,@MODELO VARCHAR(300), @COLOR VARCHAR(200)
+CREATE PROC TRANS_LLENADO_VEHICULOS_DEMANDADOS
+	@MES SMALLINT, @ANIO SMALLINT,@MODELO VARCHAR(300), @COLOR VARCHAR(200)
 	AS
 	  BEGIN TRAN TRANS_VEHICULOS_DEMANDADOS
 	  DECLARE
         @ID_VEHICULO VARCHAR(15)
 	  	SELECT @ID_VEHICULO  = FK_VEHICULO 
-		FROM DBO.FN_SUMA_TOTALES (@MES, @AÑO,@MODELO, @COLOR)
+		FROM DBO.FN_SUMA_TOTALES (@MES, @ANIO,@MODELO, @COLOR)
 		 WHERE SUM_TOT =   
-        ( SELECT MAX(SUM_TOT) FROM DBO.FN_SUMA_TOTALES (@MES, @AÑO,@MODELO, @COLOR))
-		INSERT INTO VEHICULOS_DEMANDADOS VALUES(@ID_VEHICULO,@MES,@AÑO,@MODELO,@COLOR)
+        ( SELECT MAX(SUM_TOT) FROM DBO.FN_SUMA_TOTALES (@MES, @ANIO,@MODELO, @COLOR))
+		INSERT INTO VEHICULOS_DEMANDADOS VALUES(@ID_VEHICULO,@MES,@ANIO,@MODELO,@COLOR)
 		IF(@@ERROR > 0)
 		  BEGIN
 	    	PRINT 'ERRROR....'
@@ -126,7 +126,7 @@ EXEC  TRANS_LLENADO_VEHICULOS_DEMANDADOS  1,2017,'VERSA','amarillo'
 
 /**********************************************************************
  TRANSACCION OLPT PARA LLENAR LA TABLA COMPLETA DE 'VEHICULOS-DEMANDADOS'  EN 
-TODOS LOS MESES DE AÑO PARA TODOS LOS VEHICULOS DE 'COLOR'  Y 'TIPO' REALIZAR 
+TODOS LOS MESES DE ANIO PARA TODOS LOS VEHICULOS DE 'COLOR'  Y 'TIPO' REALIZAR 
 'ETL' EN UN CUBO OLAP
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -139,7 +139,7 @@ GO
 /********************************************************************/
 
 create proc sp_trans_autos_demandados_etl
-	@MES_INICIO SMALLINT ,@MES_FIN  SMALLINT, @AÑO SMALLINT 
+	@MES_INICIO SMALLINT ,@MES_FIN  SMALLINT, @ANIO SMALLINT 
 as
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL  READ COMMITTED
@@ -165,7 +165,7 @@ BEGIN
 	    set @CONT_MES = @MES_INICIO
         WHILE( @CONT_MES <= @MES_FIN)
 	    BEGIN 
-	        EXEC  TRANS_LLENADO_VEHICULOS_DEMANDADOS  @CONT_MES, @AÑO, @MODELO, @color
+	        EXEC  TRANS_LLENADO_VEHICULOS_DEMANDADOS  @CONT_MES, @ANIO, @MODELO, @color
 	    	set @CONT_MES = @CONT_MES + 1
 	    END 
 	     SET @CONT_VEHICULOS = @CONT_VEHICULOS + 1
