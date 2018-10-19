@@ -1,72 +1,68 @@
 /*Obtener un reporte de ventas de accesorios, realizadas en el mes 'X' 
-  del año 'Y', para el cliente 'C', realizada en la sucursal 'W'
+  del año 'Y', para el cliente de genero 'X'
   almacenarlo en una nueva tabla los resultados de N transacciones
-  para realizar un posible CUBO OLAP*/
-  /*LOGICA
-	PASO 1. Obtener el estado y ciudad de la sucursal 'W'
-	PASO 2. Obtener las ventas de accesorios realizados en el mes 'X' del año 'Y'
-	PASO 3. Obtener todas las ventas de accesorios realizadas al cliente 'C'
-	PASO 4. Obtener los accesorios comprados del cliente 'C' en el mes 'X' del 
-			año 'Y' de la sucursal 'W' basandonos en el punto 1, 2 y 3
-	PASO 5. ALMACENAR los resultados en una tabla dentro de la transaccion*/
+  para realizar un posible CUBO OLAP
   
+	PASO 1. Obtener las ventas de accesorios realizados en el mes 'M' del año 'A'
+	PASO 2. Obtener todas las ventas de accesorios realizadas al los clientes de sexo 'X'
+	PASO 3. Obtener los accesorios comprados del cliente de sexo 'X' en el mes 'M' del 
+			año 'A' basandonos en el punto 1 y 2
+	PASO 4. ALMACENAR los resultados en una tabla dentro de la transaccion
+  */
 	/***************************************************************/
-	
+	select * from Cliente;
 USE Nissan
 GO
 
---Nota paso 1 aún no se utiliza
+--Nota: este paso aún no se utiliza
 
-	--PASO 1. Obtener el estado y ciudad de la sucursal 'W'
+	--PASO. Obtener el estado y ciudad de la sucursal 'W'
+	/*
     create function fn_ventas_por_sucursal(@id_sucursal varchar(15))
     returns TABLE
     AS
 		RETURN(select ESTADO,CIUDAD from DISTRIBUIDOR_O_SUCURSAL
 				where ID_SUCURSAL=@id_sucursal)
 	GO
-	--select * from DISTRIBUIDOR_O_SUCURSAL
-    --go
-	--select * from fn_ventas_por_sucursal ('SUC00004')
+	*/
 	
-	
-	--PASO 2. Obtener las ventas de accesorios realizados en el mes 'X' del año 'Y'
-	create function fn_ventas_accesorio(@mes SMALLINT, @año smallint)
+	--PASO 1. Obtener las ventas de accesorios realizados en el mes 'X' del año 'Y'
+	alter function fn_ventas_accesorio(@mes SMALLINT, @año smallint)
 	returns TABLE
 	AS
-	  RETURN(select ID_VENTA_ACCESORIO,FK_CLIENTE from VENTA_ACCESORIO
+	  RETURN(select ID_VENTA_ACCESORIO,FK_CLIENTE,FECHA from VENTA_ACCESORIO
 	         where  month(FECHA)=@MES and year(FECHA) = @AÑO) 
     GO
-    --Prueba
-    --select * from VENTA_ACCESORIO
-    --go
-    --select * from fn_ventas_accesorio(07,2017)
-    --go
     
-    
-    --PASO 3. Obtener todas las ventas de accesorios realizadas al cliente 'C'
-	--		en el mes 'X' del año 'Y'
-	create function fn_ventas_xcliente(@cliente varchar(15))
+   --PASO 2. Obtener todas las ventas de accesorios realizadas al los clientes de sexo 'X'
+	alter function fn_ventas_xcliente(@sexo varchar(1))
 	returns TABLE
 	AS
-	  RETURN(select FK_CLIENTE from VENTA_ACCESORIO
-	         where  FK_CLIENTE=@cliente) 
+	  RETURN(select c.ID_CLIENTE, c.SEXO, v.FECHA FROM VENTA_ACCESORIO v 
+	  join CLIENTE c on c.ID_CLIENTE=v.FK_CLIENTE and c.SEXO=@sexo
+	  ) 
     GO
-	
-	--select * from fn_ventas_xcliente('CL0001001')
-	--go
-	--PASO 4. Obtener los accesorios comprados del cliente 'C' en el mes 'X' del 
-	--año 'Y' de la sucursal 'W' basandonos en el punto 1, 2 y 3
-	
-	create FUNCTION articulos_xcliente_mes_año(@CLIENTE varchar(15), @MES SMALLINT, @AÑO SMALLINT)
+    
+	--PASO 3. Obtener los accesorios comprados del cliente de sexo 'X' en el mes 'M' del 
+	--		año 'A' basandonos en el punto 1 y 2
+	alter FUNCTION articulos_xcliente_mes_año(@SEXO varchar(15), @MES SMALLINT, @AÑO SMALLINT)
 		   RETURNS TABLE
 		   AS 
-			RETURN(SELECT FK_ACCESORIO,FK_VENTA_ACCESORIO
-			FROM DET_VENTA_ACCESORIO WHERE FK_VENTA_ACCESORIO IN
+			RETURN(
+			SELECT  ac.ID_ACCESORIO, ac.DECRIPCION, @SEXO as GENERO, COUNT(dv.FK_ACCESORIO) CANTIDAD_VENDIDA, @MES MES, @AÑO AÑO
+			FROM DET_VENTA_ACCESORIO dv join ACCESORIO ac on dv.FK_ACCESORIO = ac.ID_ACCESORIO
+			WHERE FK_VENTA_ACCESORIO IN
 				  (SELECT ID_VENTA_ACCESORIO FROM DBO.fn_ventas_accesorio(@MES,@AÑO)
-				  where FK_CLIENTE IN (SELECT FK_CLIENTE FROM fn_ventas_xcliente(@CLIENTE)))
-		   GROUP BY FK_ACCESORIO,FK_VENTA_ACCESORIO
+				  where FK_CLIENTE IN (SELECT ID_CLIENTE FROM fn_ventas_xcliente(@SEXO)))
+		   GROUP BY ac.ID_ACCESORIO,dv.FK_ACCESORIO, ac.DECRIPCION
 		   )
 	GO
 	
-	--select * from articulos_xcliente_mes_año('CL0001001', 3, 2018)
+	
+	--select * from VENTA_ACCESORIO
+	--select * from fn_ventas_accesorio(03,2017)
+    --go
+    --select * from fn_ventas_xcliente('CL0001001')
+	--go
+	--select * from articulos_xcliente_mes_año('M', 3, 2018)
 	--go
