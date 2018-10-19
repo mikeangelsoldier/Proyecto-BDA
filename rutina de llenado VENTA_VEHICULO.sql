@@ -43,7 +43,7 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO
      begin tran llena_venta_vehiculo
 	 DECLARE @ID_VENTA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
 	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_VEHICULO VARCHAR(15), @cantidad int,
-      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_vehiculos int
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes bigint, @cantidad_vehiculos int
       	
       
 		
@@ -64,7 +64,7 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO
 	    SET @FECHA = GETDATE() - @CTA
 	    
 	    --Seleccionar CLIENTE aleatoria
-        SET @cantidad_clientes= (SELECT COUNT(ID_CLIENTE) FROM CLIENTE)--total de sucursales
+        SET @cantidad_clientes= (SELECT COUNT(ID_CLIENTE) FROM CLIENTE)--total de clientes
 	    SET @CTA = FLOOR( (RAND() * @cantidad_clientes) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
 	    
 		print @cta

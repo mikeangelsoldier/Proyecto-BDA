@@ -43,7 +43,7 @@ CREATE PROC  SP_LLENA_VENTA_ACCESORIO
 	 @ID_CLIENTE VARCHAR(15),
 	 @CONT INT = 1 , @CONT2 INT ,
 	 @ID_ACCESORIO VARCHAR(15), @cantidad int,
-      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_accesorios int
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes bigint, @cantidad_accesorios int
       	
       
 		
