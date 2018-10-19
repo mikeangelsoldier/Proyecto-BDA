@@ -35,13 +35,13 @@ RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_servicio q
 DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que servicioS VENDE 
 **************************************************************************************************/
 
-CREATE PROC  SP_LLENA_FACT_SERVICIO
+CREATE alter PROC  SP_LLENA_FACT_SERVICIO
   @CUENTA BIGINT,  @N INT , @FORMA_PAGO VARCHAR(10)
   AS
      begin tran llena_fact_servicio
 	 DECLARE @ID_FACTURA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
 	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_SERVICIO VARCHAR(15), @puntuacion int,
-      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes int, @cantidad_servicios int
+      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes bigint, @cantidad_servicios int
       	
       
 		
@@ -49,7 +49,7 @@ CREATE PROC  SP_LLENA_FACT_SERVICIO
         BEGIN    
         --Seleccionar Sucursal aleatoria
         SET @ID_FACTURA =  'FCT' + CONVERT(VARCHAR,@CUENTA)
-        SET @cantidad_sucursales= (SELECT COUNT(ID_SUCURSAL) FROM DISTRIBUIDOR_O_SUCURSAL)--total de sucursales
+        SET @cantidad_sucursales= (SELECT COUNT(ID_SUCURSAL) FROM DISTRIBUIDOR_O_SUCURSAL)--total de clientes
 	    SET @CTA = FLOOR( (RAND() * @cantidad_sucursales) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
 	    
 		print @cta
@@ -60,12 +60,14 @@ CREATE PROC  SP_LLENA_FACT_SERVICIO
 		--Generar la fecha aleatoria		
 	    SET @CTA = FLOOR( (RAND() * 720) + 1)
 	    SET @FECHA = GETDATE() - @CTA
-	    
+	    --print GETDATE()
+
+
 	    --Seleccionar CLIENTE aleatoria
         SET @cantidad_clientes= (SELECT COUNT(ID_CLIENTE) FROM CLIENTE)--total de sucursales
 	    SET @CTA = FLOOR( (RAND() * @cantidad_clientes) + 1) --el valor aleatorio para elegir el indice (la variable es el limite de datos)
 	    
-		print @cta
+		--print @cta
 	    SELECT  @ID_CLIENTE = ID_CLIENTE   
 				FROM clientePP3
 				WHERE INDICE = @CTA
@@ -73,7 +75,8 @@ CREATE PROC  SP_LLENA_FACT_SERVICIO
 		
 	    
 	  INSERT INTO FACT_SERVICIO (ID_FACT_SERVICIO,FK_DISTRIBUIDORA,FK_CLIENTE,FECHA,FORMA_PAGO)VALUES(@ID_FACTURA,@ID_SUCURSAL,@ID_CLIENTE,@FECHA,@FORMA_PAGO )
-	    
+	    --SELECT * FROM FACT_SERVICIO
+
 	  --Poner los detalles de venta aleatorios para una misma venta
 	    SET @CTA1 = FLOOR( (RAND() * 20) + 1)
 		SET @CONT2 = 1
