@@ -35,15 +35,15 @@ RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_ACCESORIO 
 DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que ACCESORIOS VENDE 
 **************************************************************************************************/
 
-CREATE PROC  SP_LLENA_VENTA_ACCESORIO 
-  @CUENTA BIGINT,  @N INT , @FORMA_PAGO VARCHAR(10)
+CREATE PROC SP_LLENA_VENTA_ACCESORIO 
+  @CUENTA BIGINT,  @N BIGINT , @FORMA_PAGO VARCHAR(10)
   AS
      begin tran llena_venta_accesorio
 	 DECLARE @ID_VENTA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
 	 @ID_CLIENTE VARCHAR(15),
-	 @CONT INT = 1 , @CONT2 INT ,
-	 @ID_ACCESORIO VARCHAR(15), @cantidad int,
-      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes bigint, @cantidad_accesorios int
+	 @CONT BIGINT = 1 , @CONT2 BIGINT ,
+	 @ID_ACCESORIO VARCHAR(15), @cantidad BIGINT,
+      	@CTA BIGINT , @CTA1  BIGINT, @cantidad_sucursales BIGINT, @cantidad_clientes BIGINT, @cantidad_accesorios BIGINT
       	
       
 		

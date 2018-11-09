@@ -35,13 +35,13 @@ RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_servicio q
 DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que servicioS VENDE 
 **************************************************************************************************/
 
-CREATE alter PROC  SP_LLENA_FACT_SERVICIO
-  @CUENTA BIGINT,  @N INT , @FORMA_PAGO VARCHAR(10)
+CREATE PROC SP_LLENA_FACT_SERVICIO
+  @CUENTA BIGINT,  @N BIGINT , @FORMA_PAGO VARCHAR(10)
   AS
      begin tran llena_fact_servicio
 	 DECLARE @ID_FACTURA VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), 	@FECHA DATE,  
-	 @ID_CLIENTE VARCHAR(15),@CONT INT = 1 , @CONT2 INT ,@ID_SERVICIO VARCHAR(15), @puntuacion int,
-      	@CTA bigint , @CTA1  bigint, @cantidad_sucursales int, @cantidad_clientes bigint, @cantidad_servicios int
+	 @ID_CLIENTE VARCHAR(15),@CONT BIGINT = 1 , @CONT2 BIGINT ,@ID_SERVICIO VARCHAR(15), @puntuacion BIGINT,
+      	@CTA BIGINT , @CTA1  BIGINT, @cantidad_sucursales BIGINT, @cantidad_clientes BIGINT, @cantidad_servicios BIGINT
       	
       
 		

@@ -33,22 +33,21 @@ GO
 SELECT * FROM VehiculoPP5
 GO
 
-GO
 
 /**********************************************************************************************
 RUTINA PARA LLENAR ALEATORIAMENTE EN BASE A LOS DATOS BASE LAS VENTAS_VEHICULO que realizan los 
 DISTRIBUIDORES_O_SUCURSAL a CLIENTES y  que VEHICULOS VENDE 
 **************************************************************************************************/
 
-CREATE alter PROC  SP_TRASLADO_AUTOS
-	@CUENTA BIGINT,  @N INT
+CREATE PROC SP_TRASLADO_AUTOS
+	@CUENTA BIGINT,  @N BIGINT
 	AS
 		begin tran llena_factura_almacen
 			DECLARE 
 			@NO_PEDIDO VARCHAR(30),  @ID_SUCURSAL VARCHAR(15), @FECHA DATE,  
 			@ID_ALMACEN_EMPRESA VARCHAR(15),@ID_VEHICULO VARCHAR(15),
-			@CONT INT = 1 , @CONT2 INT , @cantidad int,
-      		@CTA bigint , @CTA1  bigint, @cantidad_sucursales bigint, @cantidad_almacenes bigint, @cantidad_vehiculos bigint
+			@CONT BIGINT = 1 , @CONT2 BIGINT ,
+      		@CTA BIGINT , @CTA1  BIGINT, @cantidad_sucursales BIGINT, @cantidad_almacenes BIGINT, @cantidad_vehiculos BIGINT
     
 			WHILE (@CONT <=  @N)
 			BEGIN    
@@ -98,15 +97,10 @@ CREATE alter PROC  SP_TRASLADO_AUTOS
 							WHERE INDICE = @CTA
             
             
-							SET @CTA = FLOOR( (RAND() * 10) + 4)
-							--print FLOOR( (RAND() * 20) + 1)
-							SET @cantidad= @CTA
-	      
-         
 							if NOT EXISTS (SELECT FK_PEDIDO,FK_VEHICULO FROM DET_FACTURA_ALMACEN
 								WHERE FK_VEHICULO = @ID_VEHICULO AND FK_PEDIDO = @NO_PEDIDO)
 							BEGIN  
-								INSERT INTO DET_FACTURA_ALMACEN (FK_PEDIDO,FK_VEHICULO,CANTIDAD) VALUES(@NO_PEDIDO,@ID_VEHICULO,@cantidad)
+								INSERT INTO DET_FACTURA_ALMACEN (FK_PEDIDO,FK_VEHICULO) VALUES(@NO_PEDIDO,@ID_VEHICULO)
 								SET @CONT2 = @CONT2 + 1
 								---POR EL TRIGGER
 								--update articulo set EXISTENCIA_ACTUAL = EXISTENCIA_ACTUAL + @cant_rec,
@@ -139,42 +133,4 @@ SELECT * from DET_FACTURA_ALMACEN
 EXEC SP_TRASLADO_AUTOS  1,  600
 --EXEC SP_TRASLADO_AUTOS  100,  40100
 --EXEC SP_TRASLADO_AUTOS  2,  13780
-
-
-SELECT
-
-
-
-
-
-
-
-
-
---ejecucion
-EXEC SP_LLENA_VENTA_VEHICULO  30,  750,'EFECTIVO'
---EXEC SP_LLENA_VENTA_VEHICULO  10,  70000,'EFECTIVO'
---EXEC SP_LLENA_VENTA_VEHICULO  7,  2300, 'TARJETA'
-
-
-SELECT * from VENTA_VEHICULO WHERE FORMA_PAGO='EFECTIVO'
-SELECT * from VENTA_VEHICULO WHERE FORMA_PAGO='TARJETA'
-
-SELECT * from DET_VENTA_VEHICULO
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
