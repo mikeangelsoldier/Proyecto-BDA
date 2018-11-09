@@ -1,4 +1,6 @@
 /*
+NOTA, es mejor GENERAR los coches desde SQL con el Script llamado "Rutina de llenado de vehiculos.sql" porque deben ser la misma catidad de autos que de ventas
+Por lo que YA NO DEBEN DE EJECUTAR ESTE SCRIPT
     Juda Alector 
     2 de Octubre del 2018
     SpreadSheed creado para generar datos : 
@@ -6,9 +8,10 @@
 */
 
 Use Nissan
-SELECT * FROM VEHICULO
 GO
 
+SELECT * FROM VEHICULO
+GO
 
 insert into VEHICULO (ID_VEHICULO, TIPO, AÑO, MODELO,COLOR, PRECIO, EXISTENCIA) VALUES
 ( 'VH00947233', 'Electrico', 2014, 'TSURU', 'Negro', 689543, 163),

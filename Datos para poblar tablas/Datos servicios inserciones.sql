@@ -9,6 +9,12 @@
         https://www.mazda.mx/mi-mazda/mantenimiento
 */
 use Nissan
+GO
+
+
+--------------------------------------			SERVICIO	----------------------  SELECT * FROM SERVICIO
+
+
 insert into SERVICIO values 
 ('SERV00086734563', 'Cambio de llanta (se cambiará por la de refacción)', 3000),
 ('SERV00086734564', 'Suministro de gasolina (10 litros con costo para el beneficiario)', 2500),
@@ -53,3 +59,29 @@ insert into SERVICIO values
 ('SERV00286734601', 'Frenos', 700),
 ('SERV00386734601', 'Suspensión delantera y trasera, rótulas y juego axial de baleros', 4000),
 ('SERV00486734601', 'Presión de llantas / ajustar', 200);
+
+
+
+
+insert into SERVICIO (ID_SERVICIO,DESCRIPCION,PRECIO)
+values ('SE0000001','Aceite semi-sintetico',326),
+('SE0000002','Aceite sintetico',760),
+('SE0000003','Filtro de aire',470),
+('SE0000004','Filtro de aire acondicionado',769),
+('SE0000005','Pastillas de freno delanteras',1777),
+('SE0000007','Revision del filtro de agua',150),
+('SE0000008','Ajuste de bombillas',200),
+('SE0000009','tensor de faja',700),
+('SE0000010','Juego libre de clutch',500),
+('SE0000011','Limpieza de terminales',350),
+('SE0000012','Servicio general 10mil Km',5130),
+('SE0000013','Servicio general 20mil Km',7780),
+('SE0000014','Servicio general 30mil Km',5130),
+('SE0000015','Servicio general 40mil Km',8720),
+('SE0000016','Servicio general 50mil Km',5130),
+('SE0000017','Servicio general 60mil Km',7780),
+('SE0000018','Servicio general 70mil Km',5130),
+('SE0000019','Servicio general 80mil Km',10060),
+('SE0000020','Servicio general 90mil Km',5130),
+('SE0000021','Servicio general 100mil Km',9540);
+GO
