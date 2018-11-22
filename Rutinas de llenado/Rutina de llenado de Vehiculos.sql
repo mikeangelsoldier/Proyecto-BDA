@@ -152,7 +152,7 @@ CREATE PROC  SP_LLENA_VEHICULO
 			--*Seleccionar tipo aleatorio
 			SET @cantidad_tipos= (SELECT COUNT(TIPO) FROM TIPOS)--total de tripo
 			SET @CTA = FLOOR( (RAND() * @cantidad_tipos) + 1) 
-			--print FLOOR( (RAND() * 5) + 1)
+			--print FLOOR( (RAND() * 5) + 1) 
 	  
 			print @cta
 			SELECT  @TIPO = TIPO   
@@ -211,5 +211,5 @@ SELECT * FROM VEHICULO
 --ejecucion
 --EXEC SP_LLENA_VEHICULO  1, 1000000000
 --EXEC SP_LLENA_VEHICULO  1, 100000
-EXEC SP_LLENA_VEHICULO  1, 10000
+EXEC SP_LLENA_VEHICULO  85555, 10000
 
