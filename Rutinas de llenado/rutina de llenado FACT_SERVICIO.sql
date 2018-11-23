@@ -1,4 +1,4 @@
-/*+++++++++++++CREA INDICE DE LAS SURSALES CORRESPONDIENTES++++++++++++++++++  */
+/*+++++++++++++CREA INDICE DE LAS SUCURSALES CORRESPONDIENTES++++++++++++++++++  */
 use Nissan
 GO
 
