@@ -1,0 +1,12 @@
+
+
+USE Nissan
+GO
+
+
+SELECT * FROM TABLA_HECHO_VENTAS_VEHICULO
+
+
+
+
+

@@ -4,32 +4,32 @@ use Nissan
 GO
 
 
-CREATE VIEW SucursalPP2
+CREATE VIEW SucursalP5
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_SUCURSAL) AS INDICE, ID_SUCURSAL 
  FROM Distribuidor_o_sucursal 
 GO
  
-SELECT * FROM SucursalPP2
+SELECT * FROM SucursalP5
 GO
 
-CREATE VIEW VehiculoPP
+CREATE VIEW VehiculoP5
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_VEHICULO) AS INDICE, ID_VEHICULO 
  FROM VEHICULO 
 GO
 
-SELECT * FROM VehiculoPP
+SELECT * FROM VehiculoP5
 GO
 
 
-CREATE VIEW clientePP2
+CREATE VIEW clienteP5
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_CLIENTE) AS INDICE, ID_CLIENTE 
  FROM CLIENTE 
 GO
 
-SELECT * FROM clientePP2
+SELECT * FROM clienteP5
 GO
 
 /**********************************************************************************************
@@ -62,7 +62,7 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO_AUTOMATICAMENTE
 	    
 		print @cta
 	    SELECT  @ID_SUCURSAL = ID_SUCURSAL   
-			FROM SucursalPP2
+			FROM SucursalP5
 			WHERE INDICE = @CTA
 				
 		--Generar la fecha aleatoria		
@@ -75,7 +75,7 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO_AUTOMATICAMENTE
 	    
 	    --print @cta
 	    SELECT  @ID_CLIENTE = ID_CLIENTE   
-			FROM clientePP2
+			FROM clienteP5
 			WHERE INDICE = @CTA
 	    
 	    --seleccionar un VEHICULO aleatorio
@@ -83,7 +83,7 @@ CREATE PROC  SP_LLENA_VENTA_VEHICULO_AUTOMATICAMENTE
 	    SET @CTA = @contador_vehiculo
 		--print @cta
 		SELECT  @ID_VEHICULO = ID_VEHICULO   
-			FROM VehiculoPP
+			FROM VehiculoP5
 			WHERE INDICE = @CTA
             			
 	  INSERT INTO VENTA_VEHICULO (ID_VENTA_VEHICULO,FK_DISTRIBUIDORA,FK_CLIENTE,FK_VEHICULO,FECHA,FORMA_PAGO)

@@ -3,31 +3,31 @@
 use Nissan
 GO
 
-CREATE VIEW SucursalPP
+CREATE VIEW SucursalP2
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_SUCURSAL) AS INDICE, ID_SUCURSAL 
  FROM Distribuidor_o_sucursal 
 GO
  
-SELECT * FROM SucursalPP
+SELECT * FROM SucursalP2
 GO
 
-CREATE VIEW AccesorioPP
+CREATE VIEW AccesorioP2
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_ACCESORIO) AS INDICE, ID_ACCESORIO 
  FROM ACCESORIO 
 GO
 
-SELECT * FROM AccesorioPP
+SELECT * FROM AccesorioP2
 GO
 
-CREATE VIEW clientePP
+CREATE VIEW clienteP2
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY ID_CLIENTE) AS INDICE, ID_CLIENTE 
  FROM CLIENTE 
 GO
 
-SELECT * FROM clientePP
+SELECT * FROM clienteP2
 GO
 
 /**********************************************************************************************
@@ -56,7 +56,7 @@ CREATE PROC SP_LLENA_VENTA_ACCESORIO
 	    
 		print @cta
 	    SELECT  @ID_SUCURSAL = ID_SUCURSAL   
-				FROM SucursalPP
+				FROM SucursalP2
 				WHERE INDICE = @CTA
 				
 		--Generar la fecha aleatoria		
@@ -69,7 +69,7 @@ CREATE PROC SP_LLENA_VENTA_ACCESORIO
 	    
 		print @cta
 	    SELECT  @ID_CLIENTE = ID_CLIENTE   
-				FROM clientePP
+				FROM clienteP2
 				WHERE INDICE = @CTA
 				
 		
@@ -88,7 +88,7 @@ CREATE PROC SP_LLENA_VENTA_ACCESORIO
 	    
 			print @cta
 			SELECT  @ID_ACCESORIO = ID_ACCESORIO   
-				FROM AccesorioPP
+				FROM AccesorioP2
 				WHERE INDICE = @CTA
             
             
@@ -136,6 +136,8 @@ GO
 EXEC SP_LLENA_VENTA_ACCESORIO  70,  600, 'EFECTIVO'
 --EXEC SP_LLENA_VENTA_ACCESORIO  100,  50000, 'EFECTIVO'
 --EXEC SP_LLENA_VENTA_ACCESORIO  4,  20300, 'TARJETA'
+--EXEC SP_LLENA_VENTA_ACCESORIO 1,  200, 'TARJETA'
+
 
 --cuando corra el procedimiento cambiar rango o borrar datos de ventas y sus detalles
 --DELETE FROM DET_VENTA_ACCESORIO
