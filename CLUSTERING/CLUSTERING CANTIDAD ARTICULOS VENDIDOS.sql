@@ -1,0 +1,475 @@
+
+/*
+  Obtener el ARTICULO  que mayor cantidad se haya VENDIDO en el 
+  mes 'X', ANIO 'Y'  en el estado X ciudad Y;  almacenelo
+  en una nueva tabla los resultados de 'N' transacciones
+  para realizar un posible CUBO OLAP*/
+  /*LOGICA 
+    
+    
+    
+    */
+	
+	/***************************************************************/
+USE Nissan
+GO
+
+/***********   PASO 1. obtener las VENTAS_ACCESORIOS realizados en 'X' mes, 'Y' ANIO			***************/
+--SELECT * FROM VENTA_ACCESORIO  GO;
+
+IF OBJECT_ID (N'dbo.fn_ventas_accesorio', N'IF') IS NOT NULL 
+    DROP FUNCTION dbo.fn_ventas_accesorio;  
+GO  
+	create function fn_ventas_accesorio(@mes SMALLINT, @ANIO smallint)
+	returns TABLE
+	AS
+	  RETURN(select ID_VENTA_ACCESORIO, FECHA from VENTA_ACCESORIO
+	         where  month(FECHA)=@MES and year(FECHA) = @ANIO) 
+    GO
+ 
+   -------------------------------------
+	--PRUEBA 
+	--SELECT * FROM VENTA_articulo
+
+
+--SELECT * FROM DBO.fn_ventas_accesorio(1,2016)--acceosios vendidos en el MES XX, ANIO XXXX
+SELECT * FROM DBO.fn_ventas_accesorio(12,2017)--accesorios vendidos en el MES XX, ANIO XXXX
+GO
+
+
+
+
+
+
+
+
+	 
+
+/***********   PASO3    Obtener todos los SUCURSAL  que son del estado E ciudad C			***************/
+
+IF OBJECT_ID (N'dbo.FN_SUCURSAL2', N'IF') IS NOT NULL  
+	DROP FUNCTION dbo.FN_SUCURSAL2;  
+GO 
+
+CREATE FUNCTION FN_SUCURSAL2( @ESTADO VARCHAR(30),@CIUDAD VARCHAR(100))
+	RETURNS TABLE
+	AS 
+		RETURN( SELECT ID_SUCURSAL,ESTADO, CIUDAD FROM DISTRIBUIDOR_O_SUCURSAL  
+	           WHERE ESTADO = @ESTADO AND CIUDAD = @CIUDAD )
+GO
+
+
+--SELECT * FROM DISTRIBUIDOR_O_SUCURSAL 
+--SELECT * FROM DBO.FN_SUCURSAL2('guanajuato','leon')
+
+
+
+
+
+/***********  PASO 4 VENTAS en fechas especificadas en la ubicacion especificada y fecha especificada
+	        		***************/
+	        
+	       /*
+	       ESTADO VARCHAR(30) NOT NULL ,
+	CIUDAD VARCHAR (100) NOT NULL ,
+	       
+	       */ 
+	       GO
+	       
+IF OBJECT_ID (N'dbo.FN_VENTAS_ACCESORIO_FECHAS_UBICACION', N'IF') IS NOT NULL  
+	DROP FUNCTION dbo.FN_VENTAS_ACCESORIO_FECHAS_UBICACION;  
+GO 	      
+CREATE FUNCTION FN_VENTAS_ACCESORIO_FECHAS_UBICACION( @ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
+	RETURNS TABLE
+	AS 
+	RETURN(SELECT *
+			FROM VENTA_ACCESORIO WHERE FK_DISTRIBUIDORA IN
+			
+			(SELECT Id_sucursal FROM DBO.FN_SUCURSAL2(@ESTADO,@CIUDAD ))
+			AND 
+			ID_VENTA_ACCESORIO IN (SELECT ID_VENTA_ACCESORIO FROM fn_ventas_accesorio(@mes,@ANIO))
+			--GROUP BY ID_VENTA_ACCESORIO 
+			)
+GO
+
+SELECT * FROM VENTA_ACCESORIO va JOIN DET_VENTA_ACCESORIO dtv
+ON va.ID_VENTA_ACCESORIO=dtv.FK_VENTA_ACCESORIO
+JOIN DISTRIBUIDOR_O_SUCURSAL ds ON va.FK_DISTRIBUIDORA=ds.ID_SUCURSAL
+ ORDER BY FECHA DEsc
+
+/*
+PRUEBA   
+
+SELECT * FROM DBO.FN_VENTAS_ACCESORIO_FECHAS_UBICACION('guanajuato','silao','12','2017')
+*/
+
+
+
+/***********   PASO2.  Obtener todos los ARTICULOS vendidos en las ventas de arriba  
+								***************/
+
+--SELECT * FROM VEHICULO
+IF OBJECT_ID (N'dbo.FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION', N'IF') IS NOT NULL  
+    DROP FUNCTION dbo.FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION;  
+GO  
+--SELECT * FROM DET_VENTA_ACCESORIO
+
+CREATE  FUNCTION FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION(@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
+	RETURNS TABLE
+	AS 
+		RETURN( 
+		SELECT FK_VENTA_ACCESORIO AS ID_VENTA_ACCESORIO,FK_ACCESORIO AS ID_ACCESORIO,CANTIDAD
+			FROM DET_VENTA_ACCESORIO WHERE FK_VENTA_ACCESORIO IN
+				(SELECT ID_VENTA_ACCESORIO FROM FN_VENTAS_ACCESORIO_FECHAS_UBICACION(@ESTADO,@CIUDAD,@mes,@ANIO))
+	
+			GROUP BY  FK_VENTA_ACCESORIO,FK_ACCESORIO,CANTIDAD
+		)
+GO
+
+/*
+SELECT FK_VENTA_ACCESORIO,FK_ACCESORIO,CANTIDAD
+			FROM DET_VENTA_ACCESORIO ORDER BY FK_VENTA_ACCESORIO
+
+*/
+SELECT * FROM DBO.FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION ('guanajuato','silao',12,2017)
+order by ID_ACCESORIO
+
+/*SUMA TOTAL DE CADA ARTICULO VENDIDO POR ESTADO, CIUDAD EN AÑO X, MES X*/
+
+
+
+
+--SELECT * FROM VEHICULO
+IF OBJECT_ID (N'dbo.FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS', N'IF') IS NOT NULL  
+    DROP FUNCTION dbo.FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS;  
+GO  
+CREATE  FUNCTION FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS(@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
+	RETURNS TABLE
+	AS 
+		RETURN( 
+			SELECT SUM(CANTIDAD) SUMATOTAL FROM DBO.FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION (@ESTADO,@CIUDAD,@MES,@ANIO) 
+			group by ID_ACCESORIO
+		)	
+GO
+select * FROM DBO.FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',12,2017)
+
+
+
+--SELECT * FROM VEHICULO
+IF OBJECT_ID (N'dbo.FN_TOTAL_ACCESORIOS_MAS_VENDIDOS', N'IF') IS NOT NULL  
+    DROP FUNCTION dbo.FN_TOTAL_ACCESORIOS_MAS_VENDIDOS;  
+GO  
+CREATE  FUNCTION FN_TOTAL_ACCESORIOS_MAS_VENDIDOS(@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
+	RETURNS TABLE
+	AS 
+		RETURN( 
+			SELECT ID_ACCESORIO, SUM(CANTIDAD) SUMATOTAL FROM DBO.FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION (@ESTADO,@CIUDAD,@MES,@ANIO) 
+			group by ID_ACCESORIO
+		)	
+GO
+select * FROM DBO.FN_TOTAL_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',12,2017)
+
+/*ESTO SI ESTA BIEN LO DE ARRIBA*******************************************************************************/
+
+
+
+/*obtener el ARTICULO CON LA MAYOR CANTIDAD VENDIDA, SOLO DEVUELVE UN ARTICULO*/
+--SELECT * FROM VEHICULO
+IF OBJECT_ID (N'dbo.FN_ACCESORIOS_MAS_VENDIDOS', N'IF') IS NOT NULL  
+    DROP FUNCTION dbo.FN_ACCESORIOS_MAS_VENDIDOS;  
+GO  
+CREATE  FUNCTION FN_ACCESORIOS_MAS_VENDIDOS(@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
+	RETURNS TABLE
+	AS 
+		RETURN( 
+			SELECT ID_ACCESORIO,SUMATOTAL  FROM DBO.FN_TOTAL_ACCESORIOS_MAS_VENDIDOS (@ESTADO,@CIUDAD,@MES,@ANIO)
+			where SUMATOTAL=(SELECT MAX(SUMATOTAL) FROM FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS (@ESTADO,@CIUDAD,@MES,@ANIO) )
+		)
+GO
+
+
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',12,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',11,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',10,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',9,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',8,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',7,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',6,2017)
+select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',5,2017)
+
+
+
+/*
+
+DECLARE ACCESORIOS_MAS_VENDIDOS_CURSOR CURSOR FOR
+		SELECT ID_ACCESORIO
+		FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',8,2017) 
+		
+		DECLARE @N INT=1
+		           
+    OPEN ACCESORIOS_MAS_VENDIDOS_CURSOR
+    
+	WHILE( @N <= 2)
+    BEGIN
+       
+	    PRINT 'SIMON'
+	     SET @N = @N + 1
+    END  
+     CLOSE ACCESORIOS_MAS_VENDIDOS_CURSOR;
+DEALLOCATE ACCESORIOS_MAS_VENDIDOS_CURSOR
+
+*/
+ 
+ 
+
+
+
+
+	/*******************PASO 6**************************/
+	
+	
+CREATE TABLE ACCESORIOS_DEMANDADOS(
+	ID_ACCESORIO  VARCHAR(15),
+	MES SMALLINT,
+	ANIO SMALLINT,
+	ESTADO VARCHAR(30) NOT NULL ,
+	CIUDAD VARCHAR (100) NOT NULL ,
+	CANT_MAXIMA_VENDIDA BIGINT
+)
+GO
+
+
+	/****************************************************/
+--PRUEBA--  SELECT   * FROM ACCESORIOS_DEMANDADOS          DELETE FROM ACCESORIOS_DEMANDADOS
+SELECT DISTINCT  * FROM ACCESORIOS_DEMANDADOS  
+	ORDER BY 1
+GO
+
+	/****************************************************/
+IF OBJECT_ID (N'dbo.TRANS_LLENADO_ACCESORIOS_DEMANDADOS', N'IF') IS NOT NULL  
+    DROP PROCEDURE dbo.TRANS_LLENADO_ACCESORIOS_DEMANDADOS;  
+GO  
+
+CREATE PROC TRANS_LLENADO_ACCESORIOS_DEMANDADOS
+	@MES SMALLINT, @ANIO SMALLINT,@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100)
+	AS
+	  BEGIN TRAN TRANS_ACCESORIOS_DEMANDADOS
+	  DECLARE
+        @ID_ACCESORIO VARCHAR(15),@SUMA_TOTAL BIGINT,@CANTIDAD BIGINT
+        
+       
+        SET @CANTIDAD=(SELECT COUNT(*) FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS (@ESTADO,@CIUDAD,@MES,@ANIO))
+        
+         IF @CANTIDAD >= 1  --solo si existe alguna coincidencia
+			BEGIN
+				DECLARE ACCESORIOS_MAS_VENDIDOS_CURSOR CURSOR FOR
+					SELECT ID_ACCESORIO,SUMATOTAL
+					FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS (@ESTADO,@CIUDAD,@MES,@ANIO)
+		
+				DECLARE @N INT=1
+		           
+				OPEN ACCESORIOS_MAS_VENDIDOS_CURSOR
+				
+					
+				WHILE( @N <=@CANTIDAD )
+				BEGIN
+					FETCH NEXT FROM ACCESORIOS_MAS_VENDIDOS_CURSOR INTO @ID_ACCESORIO,@SUMA_TOTAL
+					INSERT INTO ACCESORIOS_DEMANDADOS VALUES(@ID_ACCESORIO,@MES,@ANIO,@ESTADO,@CIUDAD,@SUMA_TOTAL)
+					SET @N = @N + 1
+					
+				END  
+				CLOSE ACCESORIOS_MAS_VENDIDOS_CURSOR;
+				DEALLOCATE ACCESORIOS_MAS_VENDIDOS_CURSOR
+			END--FIN DEL BEGIN INICIAL
+	  	
+		
+		IF(@@ERROR > 0)
+		  BEGIN
+	    	PRINT 'ERRROR....'
+		    ROLLBACK TRAN TRANS_ACCESORIOS_DEMANDADOS
+          END
+		ELSE 
+		  BEGIN
+		     PRINT 'TRANSACCION CORRECCTA....'
+			 COMMIT TRAN TRANS_ACCESORIOS_DEMANDADOS
+          END
+ GO
+ 
+ 
+/**************************************************************/
+
+
+SELECT * FROM ACCESORIO 
+SELECT * FROM ACCESORIOS_DEMANDADOS
+go
+
+
+/*PRUEBA DE INSERCION CORRRRREEEECTAAAAAAA********************************************************/
+--EXEC  TRANS_LLENADO_ACCESORIOS_DEMANDADOS  12,2017,'guanajuato','silao'
+--GO
+
+EXEC  TRANS_LLENADO_ACCESORIOS_DEMANDADOS  8,2017,'guanajuato','silao'
+GO
+
+--DELETE FROM ACCESORIOS_DEMANDADOS
+/*
+
+*/
+
+---------------------------------------------------------
+CREATE VIEW VIEW_todos_los_estados2 
+AS 
+SELECT ESTADO FROM DISTRIBUIDOR_O_SUCURSAL GROUP BY ESTADO
+GO
+
+SELECT COUNT(*) FROM VIEW_todos_los_estados2
+GO
+-------------------------------------------------------------
+
+
+CREATE VIEW VIEW_todos_las_ciudades2 
+AS 
+SELECT CIUDAD FROM DISTRIBUIDOR_O_SUCURSAL GROUP BY CIUDAD
+GO
+
+SELECT COUNT(*) FROM VIEW_todos_las_ciudades2
+---------------------------------------------------------
+
+
+/**********************************************************************
+ TRANSACCION OLPT PARA LLENAR LA TABLA COMPLETA DE 'ACCESORIOS-DEMANDADOS'  EN 
+TODOS LOS MESES DE ANIO PARA TODOS LOS ACCESORIOS  en cualquier estado y ciudad
+REALIZAR 
+'ETL' EN UN CUBO OLAP
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+--delete from ACCESORIOS_DEMANDADOS
+SELECT * FROM ACCESORIOS_DEMANDADOS
+--GROUP BY ID_VEHICULO,MES,AÑO,MODELO,COLOR
+order by 2,3,4
+GO
+
+
+SELECT * FROM ACCESORIO
+GO
+
+
+/**********************************************************************
+
+				CURSORES
+*******************************************************************/
+
+-----------------------------------------------------------------
+CREATE VIEW estadosC2
+AS
+SELECT ROW_NUMBER() OVER (ORDER BY estado) AS INDICE, ESTADO 
+ FROM VIEW_todos_los_estados2
+GO
+ 
+SELECT * FROM estadosC2
+GO
+
+-------------------------------------------------------------------
+CREATE VIEW ciudadesC2
+AS
+SELECT ROW_NUMBER() OVER (ORDER BY ciudad) AS INDICE, ciudad 
+ FROM VIEW_todos_las_ciudades2
+GO
+ 
+SELECT * FROM ciudadesC2
+GO
+
+
+------------------------------------------------
+
+
+/********************************************************************/
+
+create proc sp_trans_accesorios_demandados_etl
+	@MES_INICIO SMALLINT ,@MES_FIN  SMALLINT, @ANIO SMALLINT 
+as
+BEGIN
+	BEGIN TRAN tran_demandas_accesorios
+		DECLARE 
+		@ESTADO VARCHAR(30),
+		@CIUDAD VARCHAR(100),
+		
+		@CANTIDAD_ESTADOS INT= (SELECT COUNT(*) FROM estadosC2),
+		@CANTIDAD_CIUDADES INT= (SELECT COUNT(*) FROM ciudadesC2),
+		
+		@CONT_ESTADOS INT = 1,
+		@CONT_CIUDADES INT = 1,
+		
+		@CONT_MES INT=@MES_INICIO
+
+	  
+	  --print 'Antes del while de estados'
+	  WHILE( @CONT_ESTADOS <= @CANTIDAD_ESTADOS)
+    BEGIN
+		--print 'en el while de estados'
+	set @CONT_CIUDADES=1
+	
+		WHILE( @CONT_CIUDADES <= @CANTIDAD_CIUDADES)
+		BEGIN
+		--print 'en el while de ciudades'
+		
+					SET @CONT_MES=@MES_INICIO
+					
+						WHILE( @CONT_MES <= @MES_FIN)
+						BEGIN 
+						--print 'en el while de mes'
+						
+							
+							SELECT  @ESTADO = estado 
+							FROM estadosC2
+							WHERE INDICE = @CONT_ESTADOS
+							
+							SELECT  @CIUDAD = ciudad 
+							FROM ciudadesC2
+							WHERE INDICE = @CONT_CIUDADES
+							
+							EXEC  TRANS_LLENADO_ACCESORIOS_DEMANDADOS  @CONT_MES,@ANIO ,@ESTADO,@CIUDAD
+						
+						
+						set @CONT_MES = @CONT_MES + 1
+						END --fin while mes
+					
+		set @CONT_CIUDADES = @CONT_CIUDADES + 1
+		END  --FIN WHILE ciudades
+		
+	set @CONT_ESTADOS = @CONT_ESTADOS + 1
+    END   --FIN WHILE estados
+  
+	 IF @@ERROR <> 0  --  !=
+      BEGIN
+       RAISERROR(N'MENSAJE', 16, 1);
+       PRINT N'Error = ' + CAST(@@ERROR AS NVARCHAR(8));
+       ROLLBACK TRAN tran_demandas_accesorios 
+     END
+    ELSE  
+      COMMIT TRAN tran_demandas_accesorios    
+END
+GO
+
+
+/****************************************************************/
+--PRUEBA  
+EXEC sp_trans_accesorios_demandados_etl 1,12,2018
+GO
+
+--DELETE FROM ACCESORIOS_DEMANDADOS
+SELECT * FROM ACCESORIOS_DEMANDADOS
+SELECT * FROM ACCESORIO
+GO
+
+
+
+/*
+
+
+*/
+SELECT CIUDAD,SUM(CANT_MAXIMA_VENDIDA) FROM ACCESORIOS_DEMANDADOS
+group by CIUDAD
+GO
+
+
