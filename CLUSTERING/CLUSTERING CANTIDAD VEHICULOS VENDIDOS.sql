@@ -541,7 +541,7 @@ SELECT * FROM VEHICULOS_DEMANDADOS
 GO
 
 SELECT DISTINCT * FROM VEHICULOS_DEMANDADOS 
-ORDER BY 1,2,4,5
+ORDER BY 2,3,4,5,6,7,8 aSC
 GO
 
 SELECT MODELO,SUM(CANT_MAXIMA_VENDIDA) FROM VEHICULOS_DEMANDADOS 
@@ -553,19 +553,36 @@ GROUP BY MES,COLOR
 
 GO
 
-/*
---articulos que no tienen demanda, osea aquellos que no están en la tabla articuos demandados
---forma 1
-SELECT DISTINCT * FROM ARTICULO WHERE NO_ART NOT IN (
-			SELECT DISTINCT NO_ART FROM ARTICULOS_DEMANDADOS
-			)
+
+
+
+
+/*******************************************************************************************************************
+				FUNCIONES
+*****************************************************************************************************************/
+
+
+
+/*Cantidad de vehiculos con mas demanda de acuerdo al tipo en un mez X y anio Y*/
+IF OBJECT_ID (N'dbo.CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD', N'IF') IS NOT NULL  
+	DROP FUNCTION dbo.CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD;  
+GO 	 
+CREATE VIEW CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD AS
+SELECT vd.ESTADO,vd.CIUDAD,vd.TIPO, sum(vd.CANT_MAXIMA_VENDIDA) total_mas_vendidos FROM VEHICULOS_DEMANDADOS vd
+GROUP BY vd.ESTADO,vd.CIUDAD,vd.TIPO
+
+SELECT * FROM CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD
 GO
 
---forma 2
-SELECT NO_ART FROM ARTICULO 
-	EXCEPT 
-SELECT DISTINCT NO_ART FROM ARTICULOS_DEMANDADOS	
-GO
 
-*/
+
+
+
+
+
+
+
+
+
+
 
