@@ -560,10 +560,41 @@ GO
 /*******************************************************************************************************************
 				FUNCIONES
 *****************************************************************************************************************/
+--------------------------------------Demanda por estado y ciudad en cantidad de vehiculos mas vendidos
+SELECT * FROM VEHICULOS_DEMANDADOS
+GO
+
+SELECT ESTADO,CIUDAD,SUM(CANT_MAXIMA_VENDIDA) total_demanda FROM VEHICULOS_DEMANDADOS
+GROUP BY ESTADO,CIUDAD
+GO
+
+
+-------------------------------------Colores mas demandados, lo cual nos puede sugerir que colores descartar en el futuro
+
+SELECT * FROM VEHICULOS_DEMANDADOS
+GO
+
+SELECT COLOR,SUM(CANT_MAXIMA_VENDIDA) total_demanda FROM VEHICULOS_DEMANDADOS
+GROUP BY COLOR
+ORDER BY total_demanda
+GO
+
+
+-------------------------------------Colores mas demandados por mes
+
+SELECT * FROM VEHICULOS_DEMANDADOS
+GO
+
+SELECT MES,COLOR,SUM(CANT_MAXIMA_VENDIDA) total_demanda FROM VEHICULOS_DEMANDADOS
+GROUP BY MES,COLOR
+ORDER BY MES
+GO
 
 
 
-/*Cantidad de vehiculos con mas demanda de acuerdo al tipo en un mez X y anio Y*/
+
+
+-------------------------------------------------------Tipos de autos demandados 
 IF OBJECT_ID (N'dbo.CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD', N'IF') IS NOT NULL  
 	DROP FUNCTION dbo.CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD;  
 GO 	 
@@ -573,6 +604,25 @@ GROUP BY vd.ESTADO,vd.CIUDAD,vd.TIPO
 
 SELECT * FROM CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD
 GO
+
+
+-------------------------------------------------------modelos de autos demandados 
+IF OBJECT_ID (N'dbo.CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD', N'IF') IS NOT NULL  
+	DROP FUNCTION dbo.CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD;  
+GO 	 
+CREATE VIEW CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD AS
+SELECT vd.ESTADO,vd.CIUDAD,vd.MODELO, sum(vd.CANT_MAXIMA_VENDIDA) total_mas_vendidos FROM VEHICULOS_DEMANDADOS vd
+GROUP BY vd.ESTADO,vd.CIUDAD,vd.MODELO
+GO
+
+SELECT * FROM CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD
+GO
+
+
+
+
+
+
 
 
 
