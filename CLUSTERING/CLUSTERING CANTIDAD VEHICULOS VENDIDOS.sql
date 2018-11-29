@@ -541,7 +541,7 @@ SELECT * FROM VEHICULOS_DEMANDADOS
 GO
 
 SELECT DISTINCT * FROM VEHICULOS_DEMANDADOS 
-ORDER BY 1,2,4,5
+ORDER BY 2,3,4,5,6,7,8 aSC
 GO
 
 SELECT MODELO,SUM(CANT_MAXIMA_VENDIDA) FROM VEHICULOS_DEMANDADOS 
@@ -553,19 +553,86 @@ GROUP BY MES,COLOR
 
 GO
 
-/*
---articulos que no tienen demanda, osea aquellos que no están en la tabla articuos demandados
---forma 1
-SELECT DISTINCT * FROM ARTICULO WHERE NO_ART NOT IN (
-			SELECT DISTINCT NO_ART FROM ARTICULOS_DEMANDADOS
-			)
+
+
+
+
+/*******************************************************************************************************************
+				FUNCIONES
+*****************************************************************************************************************/
+--------------------------------------Demanda por estado y ciudad en cantidad de vehiculos mas vendidos
+SELECT * FROM VEHICULOS_DEMANDADOS
 GO
 
---forma 2
-SELECT NO_ART FROM ARTICULO 
-	EXCEPT 
-SELECT DISTINCT NO_ART FROM ARTICULOS_DEMANDADOS	
+SELECT ESTADO,CIUDAD,SUM(CANT_MAXIMA_VENDIDA) total_demanda FROM VEHICULOS_DEMANDADOS
+GROUP BY ESTADO,CIUDAD
 GO
 
-*/
+
+-------------------------------------Colores mas demandados, lo cual nos puede sugerir que colores descartar en el futuro
+
+SELECT * FROM VEHICULOS_DEMANDADOS
+GO
+
+SELECT COLOR,SUM(CANT_MAXIMA_VENDIDA) total_demanda FROM VEHICULOS_DEMANDADOS
+GROUP BY COLOR
+ORDER BY total_demanda
+GO
+
+
+-------------------------------------Colores mas demandados por mes
+
+SELECT * FROM VEHICULOS_DEMANDADOS
+GO
+
+SELECT MES,COLOR,SUM(CANT_MAXIMA_VENDIDA) total_demanda FROM VEHICULOS_DEMANDADOS
+GROUP BY MES,COLOR
+ORDER BY MES
+GO
+
+
+
+
+
+-------------------------------------------------------Tipos de autos demandados 
+IF OBJECT_ID (N'dbo.CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD', N'IF') IS NOT NULL  
+	DROP FUNCTION dbo.CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD;  
+GO 	 
+CREATE VIEW CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD AS
+SELECT vd.ESTADO,vd.CIUDAD,vd.TIPO, sum(vd.CANT_MAXIMA_VENDIDA) total_mas_vendidos FROM VEHICULOS_DEMANDADOS vd
+GROUP BY vd.ESTADO,vd.CIUDAD,vd.TIPO
+
+SELECT * FROM CANTIDAD_TIPOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD
+GO
+
+
+-------------------------------------------------------modelos de autos demandados 
+IF OBJECT_ID (N'dbo.CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD', N'IF') IS NOT NULL  
+	DROP FUNCTION dbo.CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD;  
+GO 	 
+CREATE VIEW CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD AS
+SELECT vd.ESTADO,vd.CIUDAD,vd.MODELO, sum(vd.CANT_MAXIMA_VENDIDA) total_mas_vendidos FROM VEHICULOS_DEMANDADOS vd
+GROUP BY vd.ESTADO,vd.CIUDAD,vd.MODELO
+GO
+
+SELECT * FROM CANTIDAD_MODELOS_AUTOS_MAS_VENDIDOS_POR_ESTADO_CIUDAD
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
