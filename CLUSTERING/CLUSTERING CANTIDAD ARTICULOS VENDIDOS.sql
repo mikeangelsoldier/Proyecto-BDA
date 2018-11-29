@@ -3,50 +3,42 @@
   Obtener el ARTICULO  que mayor cantidad se haya VENDIDO en el 
   mes 'X', ANIO 'Y'  en el estado X ciudad Y;  almacenelo
   en una nueva tabla los resultados de 'N' transacciones
-  para realizar un posible CUBO OLAP*/
-  /*LOGICA 
-    
-    
-    
-    */
+  para realizar un posible CUBO OLAP
+
+*/
 	
-	/***************************************************************/
 USE Nissan
 GO
 
-/***********   PASO 1. obtener las VENTAS_ACCESORIOS realizados en 'X' mes, 'Y' ANIO			***************/
+
+/*****************************************************************************
+**** LOGICA *****************************************************************
+*****************************************************************************/
+
+/***********   PASO 1. obtener las VENTAS_ACCESORIOS realizados en 'X' mes, 'Y' ANIO ***************/
 --SELECT * FROM VENTA_ACCESORIO  GO;
 
 IF OBJECT_ID (N'dbo.fn_ventas_accesorio', N'IF') IS NOT NULL 
     DROP FUNCTION dbo.fn_ventas_accesorio;  
 GO  
-	create function fn_ventas_accesorio(@mes SMALLINT, @ANIO smallint)
+
+create function fn_ventas_accesorio(@mes SMALLINT, @ANIO smallint)
 	returns TABLE
-	AS
-	  RETURN(select ID_VENTA_ACCESORIO, FECHA from VENTA_ACCESORIO
-	         where  month(FECHA)=@MES and year(FECHA) = @ANIO) 
-    GO
- 
-   -------------------------------------
-	--PRUEBA 
-	--SELECT * FROM VENTA_articulo
+AS
+	RETURN(select ID_VENTA_ACCESORIO, FECHA from VENTA_ACCESORIO
+			where  month( FECHA ) = @MES and year( FECHA ) = @ANIO) 
+GO
+	
+-------------------------------------
+-- PRUEBA 
+-- SELECT * FROM VENTA_articulo
 
 
---SELECT * FROM DBO.fn_ventas_accesorio(1,2016)--acceosios vendidos en el MES XX, ANIO XXXX
-SELECT * FROM DBO.fn_ventas_accesorio(12,2017)--accesorios vendidos en el MES XX, ANIO XXXX
+-- SELECT * FROM DBO.fn_ventas_accesorio(1,2016)-- acceosios vendidos en el MES XX, ANIO XXXX
+SELECT * FROM DBO.fn_ventas_accesorio(12,2017) -- accesorios vendidos en el MES XX, ANIO XXXX
 GO
 
-
-
-
-
-
-
-
-	 
-
 /***********   PASO3    Obtener todos los SUCURSAL  que son del estado E ciudad C			***************/
-
 IF OBJECT_ID (N'dbo.FN_SUCURSAL2', N'IF') IS NOT NULL  
 	DROP FUNCTION dbo.FN_SUCURSAL2;  
 GO 
@@ -57,53 +49,32 @@ CREATE FUNCTION FN_SUCURSAL2( @ESTADO VARCHAR(30),@CIUDAD VARCHAR(100))
 		RETURN( SELECT ID_SUCURSAL,ESTADO, CIUDAD FROM DISTRIBUIDOR_O_SUCURSAL  
 	           WHERE ESTADO = @ESTADO AND CIUDAD = @CIUDAD )
 GO
-
-
 --SELECT * FROM DISTRIBUIDOR_O_SUCURSAL 
 --SELECT * FROM DBO.FN_SUCURSAL2('guanajuato','leon')
 
-
-
-
-
-/***********  PASO 4 VENTAS en fechas especificadas en la ubicacion especificada y fecha especificada
-	        		***************/
-	        
-	       /*
-	       ESTADO VARCHAR(30) NOT NULL ,
-	CIUDAD VARCHAR (100) NOT NULL ,
-	       
-	       */ 
-	       GO
-	       
+/***********  PASO 4 VENTAS en fechas especificadas en la ubicacion especificada y fecha especificada ***************/
 IF OBJECT_ID (N'dbo.FN_VENTAS_ACCESORIO_FECHAS_UBICACION', N'IF') IS NOT NULL  
 	DROP FUNCTION dbo.FN_VENTAS_ACCESORIO_FECHAS_UBICACION;  
-GO 	      
+GO
+
 CREATE FUNCTION FN_VENTAS_ACCESORIO_FECHAS_UBICACION( @ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
-	RETURNS TABLE
-	AS 
-	RETURN(SELECT *
+	RETURNS TABLE AS 
+	RETURN (SELECT *
 			FROM VENTA_ACCESORIO WHERE FK_DISTRIBUIDORA IN
-			
 			(SELECT Id_sucursal FROM DBO.FN_SUCURSAL2(@ESTADO,@CIUDAD ))
 			AND 
-			ID_VENTA_ACCESORIO IN (SELECT ID_VENTA_ACCESORIO FROM fn_ventas_accesorio(@mes,@ANIO))
-			--GROUP BY ID_VENTA_ACCESORIO 
-			)
+			ID_VENTA_ACCESORIO IN (SELECT ID_VENTA_ACCESORIO FROM fn_ventas_accesorio(@mes,@ANIO)))
 GO
 
 SELECT * FROM VENTA_ACCESORIO va JOIN DET_VENTA_ACCESORIO dtv
-ON va.ID_VENTA_ACCESORIO=dtv.FK_VENTA_ACCESORIO
+ON va.ID_VENTA_ACCESORIO = dtv.FK_VENTA_ACCESORIO
 JOIN DISTRIBUIDOR_O_SUCURSAL ds ON va.FK_DISTRIBUIDORA=ds.ID_SUCURSAL
- ORDER BY FECHA DEsc
+ORDER BY FECHA DEsc
 
 /*
 PRUEBA   
-
 SELECT * FROM DBO.FN_VENTAS_ACCESORIO_FECHAS_UBICACION('guanajuato','silao','12','2017')
 */
-
-
 
 /***********   PASO2.  Obtener todos los ARTICULOS vendidos en las ventas de arriba  
 								***************/
@@ -134,11 +105,7 @@ SELECT FK_VENTA_ACCESORIO,FK_ACCESORIO,CANTIDAD
 SELECT * FROM DBO.FN_ACCESORIOS_VENTAS_ACCESORIO_FECHAS_UBICACION ('guanajuato','silao',12,2017)
 order by ID_ACCESORIO
 
-/*SUMA TOTAL DE CADA ARTICULO VENDIDO POR ESTADO, CIUDAD EN AÑO X, MES X*/
-
-
-
-
+/*SUMA TOTAL DE CADA ARTICULO VENDIDO POR ESTADO, CIUDAD EN Aï¿½O X, MES X*/
 --SELECT * FROM VEHICULO
 IF OBJECT_ID (N'dbo.FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS', N'IF') IS NOT NULL  
     DROP FUNCTION dbo.FN_CANTIDADES_DE_LOS_ACCESORIOS_MAS_VENDIDOS;  
@@ -178,7 +145,7 @@ select * FROM DBO.FN_TOTAL_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',12,2017)
 IF OBJECT_ID (N'dbo.FN_ACCESORIOS_MAS_VENDIDOS', N'IF') IS NOT NULL  
     DROP FUNCTION dbo.FN_ACCESORIOS_MAS_VENDIDOS;  
 GO  
-CREATE  FUNCTION FN_ACCESORIOS_MAS_VENDIDOS(@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
+CREATE FUNCTION FN_ACCESORIOS_MAS_VENDIDOS(@ESTADO VARCHAR(30),@CIUDAD VARCHAR(100),@mes SMALLINT, @ANIO smallint)
 	RETURNS TABLE
 	AS 
 		RETURN( 
@@ -197,35 +164,7 @@ select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',7,2017)
 select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',6,2017)
 select * FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',5,2017)
 
-
-
-/*
-
-DECLARE ACCESORIOS_MAS_VENDIDOS_CURSOR CURSOR FOR
-		SELECT ID_ACCESORIO
-		FROM DBO.FN_ACCESORIOS_MAS_VENDIDOS('guanajuato','silao',8,2017) 
-		
-		DECLARE @N INT=1
-		           
-    OPEN ACCESORIOS_MAS_VENDIDOS_CURSOR
-    
-	WHILE( @N <= 2)
-    BEGIN
-       
-	    PRINT 'SIMON'
-	     SET @N = @N + 1
-    END  
-     CLOSE ACCESORIOS_MAS_VENDIDOS_CURSOR;
-DEALLOCATE ACCESORIOS_MAS_VENDIDOS_CURSOR
-
-*/
- 
- 
-
-
-
-
-	/*******************PASO 6**************************/
+/*******************PASO 6**************************/
 	
 	
 CREATE TABLE ACCESORIOS_DEMANDADOS(
@@ -311,11 +250,6 @@ go
 EXEC  TRANS_LLENADO_ACCESORIOS_DEMANDADOS  8,2017,'guanajuato','silao'
 GO
 
---DELETE FROM ACCESORIOS_DEMANDADOS
-/*
-
-*/
-
 ---------------------------------------------------------
 CREATE VIEW VIEW_todos_los_estados2 
 AS 
@@ -345,21 +279,16 @@ REALIZAR
 
 --delete from ACCESORIOS_DEMANDADOS
 SELECT * FROM ACCESORIOS_DEMANDADOS
---GROUP BY ID_VEHICULO,MES,AÑO,MODELO,COLOR
+--GROUP BY ID_VEHICULO,MES,Aï¿½O,MODELO,COLOR
 order by 2,3,4
 GO
 
 
 SELECT * FROM ACCESORIO
 GO
-
-
 /**********************************************************************
-
 				CURSORES
 *******************************************************************/
-
------------------------------------------------------------------
 CREATE VIEW estadosC2
 AS
 SELECT ROW_NUMBER() OVER (ORDER BY estado) AS INDICE, ESTADO 
@@ -378,13 +307,7 @@ GO
  
 SELECT * FROM ciudadesC2
 GO
-
-
-------------------------------------------------
-
-
 /********************************************************************/
-
 create proc sp_trans_accesorios_demandados_etl
 	@MES_INICIO SMALLINT ,@MES_FIN  SMALLINT, @ANIO SMALLINT 
 as
@@ -408,18 +331,13 @@ BEGIN
     BEGIN
 		--print 'en el while de estados'
 	set @CONT_CIUDADES=1
-	
 		WHILE( @CONT_CIUDADES <= @CANTIDAD_CIUDADES)
 		BEGIN
 		--print 'en el while de ciudades'
-		
 					SET @CONT_MES=@MES_INICIO
-					
 						WHILE( @CONT_MES <= @MES_FIN)
 						BEGIN 
 						--print 'en el while de mes'
-						
-							
 							SELECT  @ESTADO = estado 
 							FROM estadosC2
 							WHERE INDICE = @CONT_ESTADOS
@@ -429,17 +347,12 @@ BEGIN
 							WHERE INDICE = @CONT_CIUDADES
 							
 							EXEC  TRANS_LLENADO_ACCESORIOS_DEMANDADOS  @CONT_MES,@ANIO ,@ESTADO,@CIUDAD
-						
-						
 						set @CONT_MES = @CONT_MES + 1
 						END --fin while mes
-					
 		set @CONT_CIUDADES = @CONT_CIUDADES + 1
 		END  --FIN WHILE ciudades
-		
 	set @CONT_ESTADOS = @CONT_ESTADOS + 1
-    END   --FIN WHILE estados
-  
+    END   --FIN WHILE estados  
 	 IF @@ERROR <> 0  --  !=
       BEGIN
        RAISERROR(N'MENSAJE', 16, 1);
@@ -462,14 +375,6 @@ SELECT * FROM ACCESORIOS_DEMANDADOS
 SELECT * FROM ACCESORIO
 GO
 
-
-
-/*
-
-
-*/
 SELECT CIUDAD,SUM(CANT_MAXIMA_VENDIDA) FROM ACCESORIOS_DEMANDADOS
 group by CIUDAD
 GO
-
-
